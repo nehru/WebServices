@@ -1,0 +1,220 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- saved from url=(0024)http://www.facebook.com/ -->
+<HTML xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" id="facebook" class=" "><HEAD><META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<META http-equiv="Content-language" content="en">
+<META http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+<SCRIPT type="text/javascript">
+//<![CDATA[
+(function(loc) { if (loc.pathname == '/') { return; } var uri_re = /^(?:(?:[^:\/?#]+):)?(?:\/\/(?:[^\/?#]*))?([^?#]*)(?:\?([^#]*))?(?:#(.*))?/; var target_domain = ''; loc.href.replace(uri_re, function(all, path, query, frag) { var dst, src; dst = src = path + (query ? '?' + query : ''); if (frag) { if (frag.charAt(0) == '/') { dst = frag.replace(/^\/+/, '/') .replace(/_fb_qsub=([^&]+)&?/, function(all, domain){ if (domain.substring(domain.length - 13) == '.facebook.com') { target_domain = 'http://'+domain; } return ''; }); } else if (/&|=/.test(frag)) { var q = {}; var m = frag.match(/([^#]*)(#.*)?/); var arr = (query||'').split('&').concat((m[1]||'').split('&')); for (var i=0, length=arr.length; i<length; i++) { var t = arr[i].split('='); if (t.length && t[0] != '') { q[t[0]] = t[1]; } } var s = []; for (var i in q) { s.push(i+ (q[i]?'='+q[i]:'')); } dst = path+'?'+s.join('&')+(m[2]||''); } } dst = "" + dst; if (dst != src) { window.location.replace(target_domain + dst); } }); })(window.location); !function() { var doc = document, htm = doc.documentElement, phc = 'DOMControl_placeholder', lct = null, nearest = function(elm, tag) { while (elm && elm.nodeName != tag) { elm = elm.parentNode; } return elm; }, fob = function (e) { var e = e || window.event, elm = e.target || e.srcElement, ph = elm.getAttribute('placeholder'); if (ph) { if ('focus' == e.type || 'focusin' == e.type) { if (elm.value == ph) { elm.value = ''; CSS.removeClass(elm, phc); } } else { if (elm.value == '') { CSS.addClass(elm, phc); elm.value = ph; } } } }; $ = window.$ || function(id) { var e = doc.getElementById(id); return (e && e.getAttribute('id') == id) ? e : null; }; CSS = window.CSS || { addClass : function(e, c) { e.className += ' ' + c; }, removeClass : function(e, c) { e.className = e.className .replace(new RegExp('(^|\\s)' + c + '(?=\\s|$)', 'g'), ' '); } }; var localBootloader = { _preloaded : [], _pending : [], loadComponents : function(components, callback) { components = components instanceof Array ? components : [components]; localBootloader._pending.push({ components : components, callback : callback }); var script = doc.createElement('script'); script.type = 'text/javascript'; script.src = '/rsrcx.php?' + (window.Bootloader.realBootloader ? '' : 'boot&') + 'enable=' + components.join(','); doc.getElementsByTagName('head')[0].appendChild(script); }, done : function(names) { localBootloader._preloaded.push(names); } }; window.Bootloader = window.Bootloader || localBootloader; htm.onclick = function(e) { e = e || window.event; lct = e.target || e.srcElement; var elem = nearest(lct, 'A') || htm, href = elem.getAttribute('ajaxify') || elem.href; switch (elem.rel) { case 'dialog': case 'dialog-post': Bootloader.loadComponents('dialog', function() { Dialog.bootstrap(href, null, elem.rel == 'dialog'); }); break; case 'async': case 'async-post': Bootloader.loadComponents('async', function() { AsyncRequest.bootstrap(href, elem); }); break; default: return; } return false; }; htm.onsubmit = function(e) { e = e || window.event; var elem = e.target || e.srcElement; if (!elem || elem.nodeName != 'FORM' || !elem.getAttribute('ajaxify')) { return; } Bootloader.loadComponents(['async', 'dom-form'], function() { var method = elem.method.toUpperCase(); new AsyncRequest(elem.action) .setData(serialize_form(elem, lct)) .setReadOnly(method == 'GET') .setMethod(method) .setStatusElement(elem) .send(); }); return false; }; htm.onfocusin = htm.onfocusout = fob; if (htm.addEventListener) { htm.addEventListener('focus', fob, true); htm.addEventListener('blur', fob, true); } CSS.removeClass(htm, 'no_js'); }(); if (navigator && navigator.userAgent && document.domain.toLowerCase().match(/(^|\.)facebook\..*/) && !(parseInt((/Gecko\/([0-9]+)/.exec(navigator.userAgent) || []).pop(), 10) <= 20060508)) { document.domain = window.location.hostname.replace(/^.*(facebook\..*)$/i, '$1'); } var onloadRegister = window.onloadRegister || function(h) { onloadhooks.push(h); }; var onloadhooks = window.onloadhooks || []; var onafterloadRegister = window.onafterloadRegister || function(h) { onafterloadhooks.push(h); }; var onafterloadhooks = window.onafterloadhooks || []; function run_if_loaded(element, f) { if (window.loaded) { return f.call(element); } }; function run_with(element, deps, f) { Bootloader.loadComponents(deps, bind(element, f)); return false; } function wait_for_load(element, e, f) { f = bind(element, f, e); if (window.loaded) { return f(); } switch ((e || event).type) { case 'load': case 'focus': onloadRegister(f); return; case 'click': var es = element.style, ds = document.body.style; es.cursor = ds.cursor = 'progress'; onafterloadRegister(function() { es.cursor = ds.cursor = ''; if (element.tagName.toLowerCase() == 'a') { if (false !== f() && element.href) { window.location.href = element.href; } } else if (element.click) { element.click(); } }); break; } return false; }; function bind(obj, method ) { var args = []; for (var ii = 2; ii < arguments.length; ii++) { args.push(arguments[ii]); } var fn = function() { var _obj = obj || (this == window ? false : this); var _args = args.slice(); for (var jj = 0; jj < arguments.length; jj++) { _args.push(arguments[jj]); } if (typeof(method) == "string") { if (_obj[method]) { return _obj[method].apply(_obj, _args); } } else { return method.apply(_obj, _args); } }; if (typeof method == 'string') { fn.name = method; } else if (method && method.name) { fn.name = method.name; } fn.toString = function() { return bind._toString(obj, args, method); }; return fn; }; var curry = bind(null, bind, null); bind._toString = bind._toString || function(obj, args, method) { return (typeof method == 'string') ? ('late bind<'+method+'>') : ('bound<'+method.toString()+'>'); }; window.loadFirebugConsole && loadFirebugConsole();CavalryLogger=false;
+//]]>
+</SCRIPT><NOSCRIPT></NOSCRIPT>
+
+<META name="robots" content="noodp,noydir">
+<META name="description" content=" Facebook is a social utility that connects people with friends and others who work, study and live around them. People use Facebook to keep up with friends, upload an unlimited number of photos, post links and videos, and learn more about the people they meet.">
+<TITLE>Welcome to Facebook! | Facebook</TITLE>
+
+<SCRIPT type="text/javascript">
+Env={user:0,method:"GET",dev:0,start:(new Date()).getTime(),ps_limit:5,ps_ratio:4,svn_rev:197261,vip:"69.63.181.16",static_base:"http:\/\/static.ak.fbcdn.net\/",www_base:"http:\/\/www.facebook.com\/",tlds:["com","at","ca","co.nz","co.za","com.au","dk","es","ie","jp","net.nz","no","pl","se","vn"],rep_lag:2,pc:{"m":"0.1.2","l":"0.1.2"},fb_dtsg:null};
+</SCRIPT>
+
+    <SCRIPT type="text/javascript" src="./Welcome to Facebook!   Facebook_files/8y26waj1.js"></SCRIPT>
+<SCRIPT type="text/javascript">InitialJSLoader.load([{"name":"js\/5jecsuvsn7k04ogc.pkg.js","type":"js","src":"http:\/\/static.ak.fbcdn.net\/rsrc.php\/z528F\/hash\/aqovf93n.js","permanent":false},{"name":"js\/vnvcgyxnr6okcsos.pkg.js","type":"js","src":"http:\/\/static.ak.fbcdn.net\/rsrc.php\/z97QV\/hash\/acuvb8y8.js","permanent":false}])</SCRIPT><SCRIPT src="./Welcome to Facebook!   Facebook_files/aqovf93n.js" type="text/javascript"></SCRIPT><SCRIPT src="./Welcome to Facebook!   Facebook_files/acuvb8y8.js" type="text/javascript"></SCRIPT>
+    <LINK type="text/css" rel="stylesheet" href="./Welcome to Facebook!   Facebook_files/564swm0a.css">
+    <LINK type="text/css" rel="stylesheet" href="./Welcome to Facebook!   Facebook_files/tci4csrj.css">
+    <LINK type="text/css" rel="stylesheet" href="./Welcome to Facebook!   Facebook_files/1uzc4638.css">
+    <LINK type="text/css" rel="stylesheet" href="./Welcome to Facebook!   Facebook_files/82ei77r1.css">
+<!--[if lte IE 6]><link rel="stylesheet" href="http://static.ak.fbcdn.net/rsrc.php/zB1WO/hash/c5zu0405.css" type="text/css" /><![endif]-->
+<!--[if IE 7]><link rel="stylesheet" href="http://static.ak.fbcdn.net/rsrc.php/z690F/hash/5pwsqvbc.css" type="text/css" /><![endif]-->
+<LINK rel="stylesheet" href="./Welcome to Facebook!   Facebook_files/6v71a1ic.css" type="text/css">
+<LINK rel="search" type="application/opensearchdescription+xml" href="http://static.ak.fbcdn.net/rsrc.php/z23ZQ/hash/3ls2fki5.xml" title="Facebook">
+<LINK rel="shortcut icon" href="http://static.ak.fbcdn.net/rsrc.php/z9Q0Q/hash/8yhim1ep.ico">
+</HEAD><BODY class="WelcomePage UIPage_LoggedOut safari3 Locale_en_US">
+<DIV id="FB_HiddenContainer" style="position:absolute; top:-10000px; width:0px; height:0px;"></DIV><DIV id="content" class="fb_content clearfix"><DIV><!-- 2365fa3194ecdc0cab15721ce967a9f8663937c7 -->
+<DIV class="WelcomePage_Container"><DIV id="menubar_container"><DIV onmouseover="if (window.delay_add_class) {DOM.scry(this, &quot;li.fb_menu&quot;).map(function(e) {delay_add_class(e, &quot;hovered&quot;, 250)});this.onmouseover = null;}" id="fb_menubar" class="fb_menubar_logged_out clearfix"><UL id="fb_menubar_core" class="fb_menu_list"><LI class="fb_menu" id="fb_menubar_logo"><A href="./Welcome to Facebook!   Facebook_files/Welcome to Facebook!   Facebook.htm" class="fb_logo_link" title="Go to Facebook Home"><IMG class="fb_logo_img" src="./Welcome to Facebook!   Facebook_files/8q2anwu7.gif" alt="Facebook logo"></A></LI></UL><UL id="fb_menubar_aux" class="fb_menu_list"><DIV class="menu_login_container"><FORM method="POST" action="https://login.facebook.com/login.php?login_attempt=1" id="login_form"><INPUT type="hidden" name="charset_test" value="&euro;,&acute;,&euro;,&acute;,水,Д,Є"><INPUT type="hidden" id="locale" name="locale" value="en_US"><INPUT type="hidden" id="non_com_login" name="non_com_login"><TABLE cellpadding="0" cellspacing="0"><TBODY><TR><TD class="login_form_label_field login_form_label_remember"><INPUT type="checkbox" class="inputcheckbox " id="persistent" name="persistent" value="1"><LABEL for="persistent" id="label_persistent">Keep me logged in</LABEL></TD><TD class="login_form_label_field"><A href="http://www.facebook.com/reset.php" rel="nofollow">Forgot your password?</A></TD><TD class="login_form_last_field login_form_label_field"></TR><TR><TD><INPUT type="text" class="inputtext DOMControl_placeholder" id="email" name="email" value=""></TD><TD><INPUT type="password" class="inputpassword hidden_elem" id="pass" name="pass" value=""><INPUT type="text" class="inputtext DOMControl_placeholder" id="pass_placeholder" name="pass_placeholder" value=""></TD><TD class="login_form_last_field"><DIV class="inner"><SPAN class="UIButton UIButton_Blue UIFormButton"><INPUT value="Login" type="submit" class="UIButton_Text"></SPAN></DIV></TD></TR></TBODY></TABLE><INPUT type="hidden" name="charset_test" value="&euro;,&acute;,&euro;,&acute;,水,Д,Є"><INPUT type="hidden" id="lsd" name="lsd" value="FKByl"></FORM>
+</DIV></UL></DIV></DIV><DIV class="WelcomePage_MainSell"><DIV class="WelcomePage_MainSellCenter clearfix"><DIV class="WelcomePage_MainSellLeft"><DIV class="WelcomePage_MainMessage">Facebook helps you connect and share with the people in your life.</DIV><DIV class="WelcomePage_MainMap">&nbsp;</DIV></DIV><DIV class="WelcomePage_MainSellRight"><DIV class="WelcomePage_SignUpSection"><DIV class="WelcomePage_SignUpMessage"><DIV class="WelcomePage_SignUpHeadline">Sign Up</DIV><DIV class="WelcomePage_SignUpSubheadline">It's free and anyone can join</DIV></DIV><DIV class="WelcomePage_SimpleReg" id="registration_container"><DIV id="simple_registration_container" class="simple_registration_container"><DIV id="reg_box"><FORM method="post" action="https://register.facebook.com/r.php" name="reg" id="reg" onsubmit="return false;"><INPUT type="hidden" name="charset_test" value="&euro;,&acute;,&euro;,&acute;,水,Д,Є"><INPUT type="hidden" id="locale" name="locale" value="en_US"><INPUT type="hidden" id="terms" name="terms" value="on"><INPUT type="hidden" id="reg_instance" name="reg_instance" value="1256930039-415efdaff2dd1c649c41ef87c090d9145a63d633fa2198a68bfab"><NOSCRIPT></NOSCRIPT><DIV id="reg_form_box"><TABLE class="editor" border="0" cellspacing="0"><TBODY><TR><TD class="label">First Name:</TD><TD><DIV class="field_container"><INPUT type="text" class="inputtext" id="firstname" name="firstname" value=""></DIV></TD></TR>
+<TR><TD class="label">Last Name:</TD><TD><DIV class="field_container"><INPUT type="text" class="inputtext" id="lastname" name="lastname" value=""></DIV></TD></TR>
+<TR><TD class="label">Your Email:</TD><TD><DIV class="field_container"><INPUT type="text" class="inputtext" id="reg_email__" name="reg_email__" value=""></DIV></TD></TR>
+<TR><TD class="label">New Password:</TD><TD><DIV class="field_container"><INPUT type="password" class="inputpassword" id="reg_passwd__" name="reg_passwd__" value=""></DIV></TD></TR>
+<TR id="extra_selects_hack"><TD><SELECT><OPTION><OPTION></SELECT><SELECT><OPTION><OPTION></SELECT></TD></TR><TR><TD class="label">I am:</TD><TD><DIV class="field_container"><SELECT class="select" name="sex" id="sex"><OPTION value="0">Select Sex:</OPTION><OPTION value="1">Female</OPTION><OPTION value="2">Male</OPTION></SELECT></DIV></TD></TR>
+<TR><TD class="label">Birthday:</TD><TD><DIV class="field_container"> <SELECT name="birthday_month" id="birthday_month" onchange="editor_date_month_change(this, &#39;birthday_day&#39;,&#39;birthday_year&#39;);" autocomplete="off"><OPTION value="-1">Month:</OPTION><OPTION value="1">Jan</OPTION>
+<OPTION value="2">Feb</OPTION>
+<OPTION value="3">Mar</OPTION>
+<OPTION value="4">Apr</OPTION>
+<OPTION value="5">May</OPTION>
+<OPTION value="6">Jun</OPTION>
+<OPTION value="7">Jul</OPTION>
+<OPTION value="8">Aug</OPTION>
+<OPTION value="9">Sep</OPTION>
+<OPTION value="10">Oct</OPTION>
+<OPTION value="11">Nov</OPTION>
+<OPTION value="12">Dec</OPTION>
+</SELECT> <SELECT name="birthday_day" id="birthday_day" onchange="" autocomplete="off"><OPTION value="-1">Day:</OPTION><OPTION value="1">1</OPTION>
+<OPTION value="2">2</OPTION>
+<OPTION value="3">3</OPTION>
+<OPTION value="4">4</OPTION>
+<OPTION value="5">5</OPTION>
+<OPTION value="6">6</OPTION>
+<OPTION value="7">7</OPTION>
+<OPTION value="8">8</OPTION>
+<OPTION value="9">9</OPTION>
+<OPTION value="10">10</OPTION>
+<OPTION value="11">11</OPTION>
+<OPTION value="12">12</OPTION>
+<OPTION value="13">13</OPTION>
+<OPTION value="14">14</OPTION>
+<OPTION value="15">15</OPTION>
+<OPTION value="16">16</OPTION>
+<OPTION value="17">17</OPTION>
+<OPTION value="18">18</OPTION>
+<OPTION value="19">19</OPTION>
+<OPTION value="20">20</OPTION>
+<OPTION value="21">21</OPTION>
+<OPTION value="22">22</OPTION>
+<OPTION value="23">23</OPTION>
+<OPTION value="24">24</OPTION>
+<OPTION value="25">25</OPTION>
+<OPTION value="26">26</OPTION>
+<OPTION value="27">27</OPTION>
+<OPTION value="28">28</OPTION>
+<OPTION value="29">29</OPTION>
+<OPTION value="30">30</OPTION>
+<OPTION value="31">31</OPTION>
+</SELECT> <SELECT name="birthday_year" id="birthday_year" onchange="editor_date_month_change(&quot;birthday_month&quot;,&quot;birthday_day&quot;,this);" autocomplete="off"><OPTION value="-1">Year:</OPTION><OPTION value="2009">2009</OPTION>
+<OPTION value="2008">2008</OPTION>
+<OPTION value="2007">2007</OPTION>
+<OPTION value="2006">2006</OPTION>
+<OPTION value="2005">2005</OPTION>
+<OPTION value="2004">2004</OPTION>
+<OPTION value="2003">2003</OPTION>
+<OPTION value="2002">2002</OPTION>
+<OPTION value="2001">2001</OPTION>
+<OPTION value="2000">2000</OPTION>
+<OPTION value="1999">1999</OPTION>
+<OPTION value="1998">1998</OPTION>
+<OPTION value="1997">1997</OPTION>
+<OPTION value="1996">1996</OPTION>
+<OPTION value="1995">1995</OPTION>
+<OPTION value="1994">1994</OPTION>
+<OPTION value="1993">1993</OPTION>
+<OPTION value="1992">1992</OPTION>
+<OPTION value="1991">1991</OPTION>
+<OPTION value="1990">1990</OPTION>
+<OPTION value="1989">1989</OPTION>
+<OPTION value="1988">1988</OPTION>
+<OPTION value="1987">1987</OPTION>
+<OPTION value="1986">1986</OPTION>
+<OPTION value="1985">1985</OPTION>
+<OPTION value="1984">1984</OPTION>
+<OPTION value="1983">1983</OPTION>
+<OPTION value="1982">1982</OPTION>
+<OPTION value="1981">1981</OPTION>
+<OPTION value="1980">1980</OPTION>
+<OPTION value="1979">1979</OPTION>
+<OPTION value="1978">1978</OPTION>
+<OPTION value="1977">1977</OPTION>
+<OPTION value="1976">1976</OPTION>
+<OPTION value="1975">1975</OPTION>
+<OPTION value="1974">1974</OPTION>
+<OPTION value="1973">1973</OPTION>
+<OPTION value="1972">1972</OPTION>
+<OPTION value="1971">1971</OPTION>
+<OPTION value="1970">1970</OPTION>
+<OPTION value="1969">1969</OPTION>
+<OPTION value="1968">1968</OPTION>
+<OPTION value="1967">1967</OPTION>
+<OPTION value="1966">1966</OPTION>
+<OPTION value="1965">1965</OPTION>
+<OPTION value="1964">1964</OPTION>
+<OPTION value="1963">1963</OPTION>
+<OPTION value="1962">1962</OPTION>
+<OPTION value="1961">1961</OPTION>
+<OPTION value="1960">1960</OPTION>
+<OPTION value="1959">1959</OPTION>
+<OPTION value="1958">1958</OPTION>
+<OPTION value="1957">1957</OPTION>
+<OPTION value="1956">1956</OPTION>
+<OPTION value="1955">1955</OPTION>
+<OPTION value="1954">1954</OPTION>
+<OPTION value="1953">1953</OPTION>
+<OPTION value="1952">1952</OPTION>
+<OPTION value="1951">1951</OPTION>
+<OPTION value="1950">1950</OPTION>
+<OPTION value="1949">1949</OPTION>
+<OPTION value="1948">1948</OPTION>
+<OPTION value="1947">1947</OPTION>
+<OPTION value="1946">1946</OPTION>
+<OPTION value="1945">1945</OPTION>
+<OPTION value="1944">1944</OPTION>
+<OPTION value="1943">1943</OPTION>
+<OPTION value="1942">1942</OPTION>
+<OPTION value="1941">1941</OPTION>
+<OPTION value="1940">1940</OPTION>
+<OPTION value="1939">1939</OPTION>
+<OPTION value="1938">1938</OPTION>
+<OPTION value="1937">1937</OPTION>
+<OPTION value="1936">1936</OPTION>
+<OPTION value="1935">1935</OPTION>
+<OPTION value="1934">1934</OPTION>
+<OPTION value="1933">1933</OPTION>
+<OPTION value="1932">1932</OPTION>
+<OPTION value="1931">1931</OPTION>
+<OPTION value="1930">1930</OPTION>
+<OPTION value="1929">1929</OPTION>
+<OPTION value="1928">1928</OPTION>
+<OPTION value="1927">1927</OPTION>
+<OPTION value="1926">1926</OPTION>
+<OPTION value="1925">1925</OPTION>
+<OPTION value="1924">1924</OPTION>
+<OPTION value="1923">1923</OPTION>
+<OPTION value="1922">1922</OPTION>
+<OPTION value="1921">1921</OPTION>
+<OPTION value="1920">1920</OPTION>
+<OPTION value="1919">1919</OPTION>
+<OPTION value="1918">1918</OPTION>
+<OPTION value="1917">1917</OPTION>
+<OPTION value="1916">1916</OPTION>
+<OPTION value="1915">1915</OPTION>
+<OPTION value="1914">1914</OPTION>
+<OPTION value="1913">1913</OPTION>
+<OPTION value="1912">1912</OPTION>
+<OPTION value="1911">1911</OPTION>
+<OPTION value="1910">1910</OPTION>
+<OPTION value="1909">1909</OPTION>
+<OPTION value="1908">1908</OPTION>
+<OPTION value="1907">1907</OPTION>
+<OPTION value="1906">1906</OPTION>
+<OPTION value="1905">1905</OPTION>
+<OPTION value="1904">1904</OPTION>
+<OPTION value="1903">1903</OPTION>
+<OPTION value="1902">1902</OPTION>
+<OPTION value="1901">1901</OPTION>
+<OPTION value="1900">1900</OPTION>
+</SELECT></DIV></TD></TR>
+<TR><TD class="label"><TD><DIV id="birthday_warning"><A onclick="RegUtil.getInstance().show_birthday_help(); return false;" title="Click for more information">Why do I need to provide this?</A></DIV></TD></TR>
+</TBODY></TABLE><INPUT type="hidden" id="referrer" name="referrer" value="116"><INPUT type="hidden" id="challenge" name="challenge" value="0fef0856247667d15c1246a8d546a006"><INPUT type="hidden" id="md5pass" name="md5pass" value=""><DIV class="reg_btn clearfix"><SPAN class="UIButton UIButton_Green UIFormButton"><INPUT value="Sign Up" type="submit" class="UIButton_Text" onclick="RegUtil.getInstance().ajax_validate_data({ignore: [&#39;captcha&#39;]}, &#39;registration_container&#39;, &#39;1&#39; ); return false;"></SPAN><DIV id="async_status" class="async_status" style="display: none"><IMG src="./Welcome to Facebook!   Facebook_files/7hwy7at6.gif" alt=""></DIV></DIV></DIV><DIV id="reg_captcha" style="display: none;"><H2>Security Check</H2><DIV id="outer_captcha_box"><DIV id="captcha_box"><DIV class="field_error" id="captcha_response_error" style="display:none;">This field is required.</DIV><DIV id="captcha" class="captcha">
+  <INPUT type="hidden" id="captcha_persist_data" name="captcha_persist_data" value="AAAAAQAQiG_neHTU-M8mgnuASMAHVQAAAGvqENqFy5KkvMip5AIv3QSF7BS7goiHfAC7fTkzr8hW65ubWvkScNyvzrHCW1kLBf3V701CQvVmaJ__Hfg8dgwe7PzPkcNSKfqODHjjINqtwGtAbo5USXWuVjzv_KD1SMyTWhf34AGorQd27dFqZc0a"><DIV class="captcha_challenge"><DIV id="recaptcha_scripts" style="display:none"></DIV><INPUT type="hidden" id="captcha_session" name="captcha_session" value="5R87VIcEY1FbOlEgzsVSow"><INPUT type="hidden" id="extra_challenge_params" name="extra_challenge_params" value="authp=nonce.tt.time.new_audio_default&amp;psig=AAi5nwuGVPtOtMfxdkt9C-fI8K4&amp;nonce=5R87VIcEY1FbOlEgzsVSow&amp;tt=r0nw7epuqmcHyAc36Y5BNnDYrPE&amp;time=1256930039&amp;new_audio_default=1"><DIV class="recaptcha_text">Enter <STRONG>both words</STRONG> below, <STRONG>separated by a space</STRONG>.<BR><DIV class="recaptcha_only_if_image">Can't read the words below? <A href="http://www.facebook.com/#" id="recaptcha_reload_btn" onclick="Recaptcha.reload(); return false" tabindex="-1">Try different words</A> or <A href="http://www.facebook.com/#" onclick="Recaptcha.switch_type(&quot;audio&quot;); return false;" tabindex="-1">an audio captcha</A>.</DIV><DIV class="recaptcha_only_if_audio"><A href="http://www.facebook.com/#" id="recaptcha_reload_btn" onclick="Recaptcha.reload(); return false" tabindex="-1">Try different words</A> or <A href="http://www.facebook.com/#" class="recaptcha_only_if_audio" onclick="Recaptcha.switch_type(&quot;image&quot;); return false;" tabindex="-1">back to text</A>.</DIV></DIV><SPAN id="recaptcha_play_audio"></SPAN><DIV class="audiocaptcha"></DIV><DIV id="recaptcha_image"></DIV><DIV id="recaptcha_loading" class="fbloading"><SPAN>Loading...</SPAN></DIV></DIV><DIV class="captcha_refresh"></DIV><DIV class="captcha_input"><LABEL>Text in the box:</LABEL><DIV class="field_container"><INPUT type="text" name="captcha_response" id="captcha_response" autocomplete="off"></DIV><DIV style="margin-left: 15px; display: inline;"><A href="http://www.facebook.com/#" id="captcha_whatsthis" onclick="captcha_whatsthis(this); return false">What's This?</A></DIV>
+  </DIV>
+</DIV></DIV></DIV><DIV id="captcha_buttons" class="clearfix" style="display: none;"><DIV id="back_button" class="gridCol"><DIV class="cancel_button_image">&nbsp;</DIV><A href="http://www.facebook.com/#" onclick="RegUtil.getInstance().hide_captcha(); RegUtil.getInstance().show_reg_form(); return false;" id="cancel_button">Back</A></DIV><DIV id="A_btn_sign_up" class="gridCol"><DIV><SPAN class="UIButton UIButton_Green UIFormButton"><INPUT value="Sign Up" type="submit" class="UIButton_Text" onclick="RegUtil.getInstance().ajax_validate_data(&#39;&#39;, &#39;registration_container&#39;, &#39;1&#39;);return false;"></SPAN><DIV id="captcha_async_status" class="async_status" style="display: none"><IMG src="./Welcome to Facebook!   Facebook_files/7hwy7at6.gif" alt=""></DIV></DIV></DIV></DIV></DIV></FORM>
+<DIV id="reg_progress" style="display: none"><DIV id="progress_wrap"><IMG src="./Welcome to Facebook!   Facebook_files/7hwy7at6.gif" alt=""><DIV id="progress_msg">Registering…</DIV></DIV></DIV><DIV id="reg_error" style="display: none"><DIV id="reg_error_inner">An error occurred. Please try again.</DIV></DIV><DIV id="tos_container" class="tos_container hidden_elem"><P class="legal_tos">By clicking Sign Up, you are indicating that you have read and agree to the <A href="http://www.facebook.com/terms.php" target="_blank" rel="nofollow">Terms of Use</A> and <A href="http://www.facebook.com/policy.php" target="_blank" rel="nofollow">Privacy Policy</A>.</P></DIV><DIV id="reg_pages_msg"><A href="http://www.facebook.com/pages/create.php">Create a Page</A> for a celebrity, band or business.</DIV></DIV><FORM id="confirmation_email_form" method="POST" action="https://register.facebook.com/r.php"><INPUT type="hidden" id="locale" name="locale" value="en_US"><INPUT type="hidden" id="confirmation_email" name="ce" value=""></FORM></DIV></DIV></DIV></DIV></DIV></DIV></DIV><DIV class="welcome_useragent"><DIV class="language"><UL><LI><A href="./Welcome to Facebook!   Facebook_files/Welcome to Facebook!   Facebook.htm" title="English (US)" onclick="intl_set_cookie_locale(&quot;en_US&quot;, &quot;http:\/\/www.facebook.com\/&quot;, &quot;TOP_LOCALES&quot;); return false;">English (US)</A></LI><LI><A href="http://es-la.facebook.com/" title="Spanish" onclick="intl_set_cookie_locale(&quot;es_LA&quot;, &quot;http:\/\/es-la.facebook.com\/&quot;, &quot;TOP_LOCALES&quot;); return false;">Español</A></LI><LI><A href="http://pt-br.facebook.com/" title="Portuguese (Brazil)" onclick="intl_set_cookie_locale(&quot;pt_BR&quot;, &quot;http:\/\/pt-br.facebook.com\/&quot;, &quot;TOP_LOCALES&quot;); return false;">Português (Brasil)</A></LI><LI><A href="http://fr-fr.facebook.com/" title="French (France)" onclick="intl_set_cookie_locale(&quot;fr_FR&quot;, &quot;http:\/\/fr-fr.facebook.com\/&quot;, &quot;TOP_LOCALES&quot;); return false;">Français (France)</A></LI><LI><A href="http://de-de.facebook.com/" title="German" onclick="intl_set_cookie_locale(&quot;de_DE&quot;, &quot;http:\/\/de-de.facebook.com\/&quot;, &quot;TOP_LOCALES&quot;); return false;">Deutsch</A></LI><LI><A href="http://it-it.facebook.com/" title="Italian" onclick="intl_set_cookie_locale(&quot;it_IT&quot;, &quot;http:\/\/it-it.facebook.com\/&quot;, &quot;TOP_LOCALES&quot;); return false;">Italiano</A></LI><LI><A href="http://ar-ar.facebook.com/" title="Arabic" onclick="intl_set_cookie_locale(&quot;ar_AR&quot;, &quot;http:\/\/ar-ar.facebook.com\/&quot;, &quot;TOP_LOCALES&quot;); return false;">العربية</A></LI><LI><A href="http://hi-in.facebook.com/" title="Hindi" onclick="intl_set_cookie_locale(&quot;hi_IN&quot;, &quot;http:\/\/hi-in.facebook.com\/&quot;, &quot;TOP_LOCALES&quot;); return false;">हिन्दी</A></LI><LI><A href="http://zh-cn.facebook.com/" title="Chinese (Simplified)" onclick="intl_set_cookie_locale(&quot;zh_CN&quot;, &quot;http:\/\/zh-cn.facebook.com\/&quot;, &quot;TOP_LOCALES&quot;); return false;">中文(简体)</A></LI><LI><A href="http://www.facebook.jp/" title="Japanese" onclick="intl_set_cookie_locale(&quot;ja_JP&quot;, &quot;http:\/\/www.facebook.jp\/&quot;, &quot;TOP_LOCALES&quot;); return false;">日本語</A></LI><LI><A rel="dialog" href="http://www.facebook.com/ajax/intl/language_dialog.php?uri=http%3A%2F%2Fwww.facebook.com%2F&source=TOP_LOCALES_DIALOG" title="Show more languages" class="chevron">»</A></LI></UL></DIV></DIV></DIV></DIV><DIV id="pagefooter" class="clearfix"><DIV class="copyright_and_location clearfix"><DIV class="copyright" id="pagefooter_copyright"><SPAN title="HPHP">Facebook </SPAN><SPAN id="rtime" title="54 | 55">©</SPAN> <SPAN title="10.27.138.185">20</SPAN><SPAN title="4926210048">09</SPAN></DIV><DIV id="locale_selector_dialog_onclick"><A rel="dialog" href="http://www.facebook.com/ajax/intl/language_dialog.php?uri=http%3A%2F%2Fwww.facebook.com%2F" class="intl_selector_dialog_a" title="English (US)">English (US)</A></DIV></DIV><DIV id="pagefooter_links"><UL class="pagefooter_ul" id="pagefooter_left_links"><LI class="pagefooter_li"><A href="http://www.facebook.com/facebook?ref=pf" accesskey="7" rel="nofollow">About</A></LI><LI class="pagefooter_li"><A href="http://www.facebook.com/advertising/?src=pf">Advertising</A></LI><LI class="pagefooter_li"><A href="http://developers.facebook.com/?ref=pf">Developers</A></LI><LI class="pagefooter_li"><A href="http://www.facebook.com/careers/?ref=pf">Careers</A></LI><LI class="pagefooter_li"><A href="http://www.facebook.com/terms.php?ref=pf" accesskey="8" rel="nofollow">Terms</A></LI><LI class="pagefooter_li"><A href="http://blog.facebook.com/blog.php">Blog</A></LI><LI class="pagefooter_li"><A href="http://www.facebook.com/facebook-widgets/?ref=pf">Widgets</A></LI><LI class="pagefooter_li"><SPAN><SPAN class="bullet">■</SPAN></SPAN></LI></UL><UL class="pagefooter_ul" id="pagefooter_right_links"><LI class="pagefooter_li"><A href="http://www.facebook.com/find-friends/?ref=pf">Find Friends</A></LI><LI class="pagefooter_li"><A href="http://www.facebook.com/policy.php?ref=pf" accesskey="6" rel="nofollow">Privacy</A></LI><LI class="pagefooter_li"><A href="http://www.facebook.com/mobile/?ref=pf" accesskey="5">Mobile</A></LI><LI class="pagefooter_li"><A href="http://www.facebook.com/help.php?ref=pf" accesskey="0" rel="nofollow">Help</A></LI></UL></DIV></DIV><DIV id="dropmenu_container"></DIV><DIV id="js_buffer"><SCRIPT type="text/javascript">
+
+onloadRegister(function(){Bootloader.configurePage({"http:\/\/static.ak.fbcdn.net\/rsrc.php\/z938G\/hash\/564swm0a.css":["css\/3vi11zh8tv28sgg0.pkg.css",false],"http:\/\/static.ak.fbcdn.net\/rsrc.php\/z1JVT\/hash\/tci4csrj.css":["css\/ayy72px8y00g0g8s.pkg.css",true],"http:\/\/static.ak.fbcdn.net\/rsrc.php\/z3SP3\/hash\/1uzc4638.css":["css\/9flxfowse4w88s0g.pkg.css",true],"http:\/\/static.ak.fbcdn.net\/rsrc.php\/z5R2Y\/hash\/82ei77r1.css":["css\/3l4y4s0fzagwowkg.pkg.css",true]});});
+Bootloader.done(["css\/3vi11zh8tv28sgg0.pkg.css","css\/ayy72px8y00g0g8s.pkg.css","css\/9flxfowse4w88s0g.pkg.css","css\/3l4y4s0fzagwowkg.pkg.css","js\/lib\/primer.js","js\/lib\/prelude.js"]);
+
+
+onloadRegister(function (){focus_login(0, true);;});
+onloadRegister(function (){new RegKeyPressListen(1);;});
+onloadRegister(function (){new CaptchaBoxKeyPressListen('1', 'registration_container', '1');;});
+onloadRegister(function (){regform_listen_focus("reg", "form_focus");;});
+onloadRegister(function (){Recaptcha.focus_on_load = false;;});
+onloadRegister(function (){RecaptchaDefaultOptions.lang = "en";;});
+onloadRegister(function (){ffid='cFMWrBGpOrstqIW0KdaFlA==';ffver='58931';;});
+onloadRegister(function (){window.loading_page_chrome = true;;});
+onloadRegister(function (){window.loading_page_chrome = false;;});
+onloadRegister(function (){var n = "rtime"; (window.ge && ge(n)) && (ge(n).title += " | 55");;});
+onafterloadRegister(function (){onbeforeunloadRegister(function(){window.ExitTime=((new Date()).getTime());});});
+
+
+</SCRIPT></DIV>
+
+</BODY></HTML>

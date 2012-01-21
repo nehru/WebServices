@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="Lookup" targetNamespace="http://www.example.org/Lookup/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://www.example.org/Lookup/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://www.example.org/Lookup/">
+      <xsd:element name="SearchLookup">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element maxOccurs="1" minOccurs="0" name="serverName" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="SearchLookupResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element maxOccurs="1" minOccurs="0" name="nextURL" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="SearchLookupRequest">
+    <wsdl:part name="parameters" element="tns:SearchLookup">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SearchLookupResponse">
+    <wsdl:part name="parameters" element="tns:SearchLookupResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="Lookup">
+    <wsdl:operation name="SearchLookup">
+      <wsdl:input message="tns:SearchLookupRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:SearchLookupResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="LookupSOAP" type="tns:Lookup">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="SearchLookup">
+      <soap:operation soapAction="http://www.example.org/Lookup/SearchLookup"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Lookup">
+    <wsdl:port name="LookupSOAP" binding="tns:LookupSOAP">
+      <soap:address location="http://www.example.org/"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

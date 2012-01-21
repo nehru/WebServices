@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="ws.cmpe275.db.bean.MetaData" table="document">
+	   <id name="id" type="long" column="ID" >
+	   <generator class="assigned"/>
+	  </id>
+
+	  <property name="author">
+		 <column name="AUTHOR" />
+	  </property>
+	
+	  <property name="itime">
+		<column name="ITIME"/>
+	  </property>
+	 
+	  <property name="lat">
+		<column name="LAT"/>
+	  </property>
+	  
+	  <property name="lon">
+		<column name="LON"/>
+	  </property>
+	
+	  <property name="tags">
+		<column name="TAGS"/>
+	  </property>
+	
+	  <property name="type">
+		<column name="TYPE"/>
+	  </property>
+	
+	  <property name="ipath">
+		<column name="IPATH"/>
+	  </property>
+	  
+   </class>
+ 
+</hibernate-mapping>

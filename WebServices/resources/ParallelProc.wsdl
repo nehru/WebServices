@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.example.org/ParallelProc/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="ParallelProc" targetNamespace="http://www.example.org/ParallelProc/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://www.example.org/ParallelProc/">
+      <xsd:element name="ParallelQuery">
+        <xsd:complexType>
+          <xsd:sequence>
+          	<xsd:element name="author" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+          	<xsd:element name="stime" type="xsd:string" maxOccurs="1" minOccurs="0"></xsd:element>
+          	<xsd:element name="lat" type="xsd:string" maxOccurs="1" minOccurs="0"></xsd:element>
+          	<xsd:element name="lon" type="xsd:string" maxOccurs="1" minOccurs="0"></xsd:element>
+          	<xsd:element name="tags" type="xsd:string" maxOccurs="1" minOccurs="0"></xsd:element>
+          	<xsd:element name="type" type="xsd:string" maxOccurs="1" minOccurs="0"></xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="ParallelQueryResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="message" type="tns:Message" maxOccurs="unbounded" minOccurs="0"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <xsd:complexType name="Message">
+      	<xsd:sequence>
+      		<xsd:element name="author" type="xsd:string" maxOccurs="1" minOccurs="0"></xsd:element>
+      		<xsd:element name="stime" type="xsd:dateTime" maxOccurs="1" minOccurs="0"></xsd:element>
+      		<xsd:element name="lat" type="xsd:string" maxOccurs="1" minOccurs="0"></xsd:element>
+      		<xsd:element name="lon" type="xsd:string" maxOccurs="1" minOccurs="0"></xsd:element>
+      		<xsd:element name="tags" type="xsd:string" maxOccurs="1" minOccurs="0"></xsd:element>
+      		<xsd:element name="type" type="xsd:string" maxOccurs="1" minOccurs="0"></xsd:element>
+      		<xsd:element name="ipath" type="xsd:string" maxOccurs="1" minOccurs="0"></xsd:element>
+      		<xsd:element name="result" type="xsd:string" maxOccurs="1" minOccurs="0"></xsd:element>
+      	</xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="GetItem">
+      	<xsd:complexType>
+      		<xsd:sequence>
+
+      			<xsd:element name="item" type="xsd:string" maxOccurs="1" minOccurs="0"></xsd:element>
+      		</xsd:sequence>
+      	</xsd:complexType>
+      </xsd:element>
+      <xsd:element name="GetItemResponse">
+      	<xsd:complexType>
+      		<xsd:sequence>
+
+      			<xsd:element name="messages" type="xsd:base64Binary" maxOccurs="1" minOccurs="1"></xsd:element>
+      		</xsd:sequence>
+      	</xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="ParallelQueryRequest">
+    <wsdl:part element="tns:ParallelQuery" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="ParallelQueryResponse">
+    <wsdl:part element="tns:ParallelQueryResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="GetItemRequest">
+  	<wsdl:part name="parameters" element="tns:GetItem"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetItemResponse">
+  	<wsdl:part name="parameters" element="tns:GetItemResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="ParallelProc">
+    <wsdl:operation name="ParallelQuery">
+      <wsdl:input message="tns:ParallelQueryRequest"/>
+      <wsdl:output message="tns:ParallelQueryResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetItem">
+    	<wsdl:input message="tns:GetItemRequest"></wsdl:input>
+    	<wsdl:output message="tns:GetItemResponse"></wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ParallelProcSOAP" type="tns:ParallelProc">
+  	<soap:binding style="document"
+  		transport="http://schemas.xmlsoap.org/soap/http" />
+  	<wsdl:operation name="ParallelQuery">
+  		<soap:operation
+  			soapAction="http://www.example.org/ParallelProc/ParallelQuery" />
+  		<wsdl:input>
+  			<soap:body use="literal" />
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  	<wsdl:operation name="GetItem">
+  		<soap:operation
+  			soapAction="http://www.example.org/ParallelProc/GetItem" />
+  		<wsdl:input>
+  			<soap:body use="literal" />
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ParallelProc">
+    <wsdl:port binding="tns:ParallelProcSOAP" name="ParallelProcSOAP">
+      <soap:address location="http://www.example.org/"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

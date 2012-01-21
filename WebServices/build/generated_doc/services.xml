@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file was auto-generated from WSDL -->
+<!-- by the Apache Axis2 version: 1.5  Built on : Apr 30, 2009 (06:07:24 EDT) -->
+<serviceGroup>
+    <service name="Document">
+        <messageReceivers>
+            <messageReceiver mep="http://www.w3.org/ns/wsdl/in-out" class="ws.cmpe275.document.DocumentMessageReceiverInOut"/>
+        </messageReceivers>
+        <parameter name="ServiceClass">ws.cmpe275.document.DocumentSkeleton</parameter>
+        <parameter name="useOriginalwsdl">true</parameter>
+        <parameter name="modifyUserWSDLPortAddress">true</parameter>
+        <operation name="LocalDocQuery" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://www.example.org/Document/">
+            <actionMapping>http://www.example.org/Document/LocalDocQuery</actionMapping>
+            <outputActionMapping>http://www.example.org/Document/Document/LocalDocQueryResponse</outputActionMapping>
+        </operation>
+        <operation name="SearchDocument" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://www.example.org/Document/">
+            <actionMapping>http://www.example.org/Document/SearchDocument</actionMapping>
+            <outputActionMapping>http://www.example.org/Document/Document/SearchDocumentResponse</outputActionMapping>
+        </operation>
+        <operation name="GetDocument" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://www.example.org/Document/">
+            <actionMapping>http://www.example.org/Document/GetDocument</actionMapping>
+            <outputActionMapping>http://www.example.org/Document/Document/GetDocumentResponse</outputActionMapping>
+        </operation>
+        <operation name="PassInfo" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://www.example.org/Document/">
+            <actionMapping>http://www.example.org/Document/PassInfo</actionMapping>
+            <outputActionMapping>http://www.example.org/Document/Document/PassInfoResponse</outputActionMapping>
+        </operation>
+        <operation name="ParallelInfo" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://www.example.org/Document/">
+            <actionMapping>http://www.example.org/Document/ParallelInfo</actionMapping>
+            <outputActionMapping>http://www.example.org/Document/Document/ParallelInfoResponse</outputActionMapping>
+        </operation>
+    </service>
+</serviceGroup>

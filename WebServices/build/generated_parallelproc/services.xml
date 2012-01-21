@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file was auto-generated from WSDL -->
+<!-- by the Apache Axis2 version: 1.5  Built on : Apr 30, 2009 (06:07:24 EDT) -->
+<serviceGroup>
+    <service name="ParallelProc">
+        <messageReceivers>
+            <messageReceiver mep="http://www.w3.org/ns/wsdl/in-out" class="ws.cmpe275.parallelproc.ParallelProcMessageReceiverInOut"/>
+        </messageReceivers>
+        <parameter name="ServiceClass">ws.cmpe275.parallelproc.ParallelProcSkeleton</parameter>
+        <parameter name="useOriginalwsdl">true</parameter>
+        <parameter name="modifyUserWSDLPortAddress">true</parameter>
+        <operation name="ParallelQuery" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://www.example.org/ParallelProc/">
+            <actionMapping>http://www.example.org/ParallelProc/ParallelQuery</actionMapping>
+            <outputActionMapping>http://www.example.org/ParallelProc/ParallelProc/ParallelQueryResponse</outputActionMapping>
+        </operation>
+        <operation name="GetItem" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://www.example.org/ParallelProc/">
+            <actionMapping>http://www.example.org/ParallelProc/GetItem</actionMapping>
+            <outputActionMapping>http://www.example.org/ParallelProc/ParallelProc/GetItemResponse</outputActionMapping>
+        </operation>
+    </service>
+</serviceGroup>

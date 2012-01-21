@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="Document" targetNamespace="http://www.example.org/Document/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://www.example.org/Document/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://www.example.org/Document/">
+      <xsd:element name="SearchDocument">
+        <xsd:complexType>
+          <xsd:sequence>
+          	<xsd:element maxOccurs="1" minOccurs="0" name="author" type="xsd:string"/>
+          	<xsd:element maxOccurs="1" minOccurs="0" name="stime" type="xsd:string"/>
+          	<xsd:element maxOccurs="1" minOccurs="0" name="lat" type="xsd:string"/>
+          	<xsd:element maxOccurs="1" minOccurs="0" name="lon" type="xsd:string"/>
+          	<xsd:element maxOccurs="1" minOccurs="0" name="tags" type="xsd:string"/>
+          	<xsd:element maxOccurs="1" minOccurs="0" name="type" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="SearchDocumentResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" minOccurs="0" name="message" type="tns:Message"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    
+      <xsd:complexType name="Message">
+      	<xsd:sequence>
+      		<xsd:element maxOccurs="1" minOccurs="0" name="author" type="xsd:string"/>
+      		<xsd:element maxOccurs="1" minOccurs="0" name="stime" type="xsd:dateTime"/>
+      		<xsd:element maxOccurs="1" minOccurs="0" name="lat" type="xsd:string"/>
+      		<xsd:element maxOccurs="1" minOccurs="0" name="lon" type="xsd:string"/>
+      		<xsd:element maxOccurs="1" minOccurs="0" name="tags" type="xsd:string"/>
+      		<xsd:element maxOccurs="1" minOccurs="0" name="type" type="xsd:string"/>
+      		<xsd:element maxOccurs="1" minOccurs="0" name="ipath" type="xsd:string"/>
+      		<xsd:element maxOccurs="1" minOccurs="0" name="result" type="xsd:string"/>
+      	</xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="GetDocument">
+      	<xsd:complexType>
+      		<xsd:sequence>
+
+      			<xsd:element maxOccurs="1" minOccurs="0" name="document" type="xsd:string"/>
+      		</xsd:sequence>
+      	</xsd:complexType>
+      </xsd:element>
+      <xsd:element name="GetDocumentResponse">
+      	<xsd:complexType>
+      		<xsd:sequence>
+
+      			<xsd:element maxOccurs="1" minOccurs="1" name="messages" type="xsd:base64Binary"/>
+      		</xsd:sequence>
+      	</xsd:complexType>
+      </xsd:element>
+      <xsd:element name="LocalDocQuery">
+      	<xsd:complexType>
+      		<xsd:sequence>
+
+      			<xsd:element maxOccurs="unbounded" minOccurs="0" name="message" type="tns:Message"/>
+      			<xsd:element maxOccurs="1" minOccurs="0" name="queryName" type="xsd:string"/>
+      		</xsd:sequence>
+      	</xsd:complexType>
+      </xsd:element>
+      <xsd:element name="LocalDocQueryResponse">
+      	<xsd:complexType>
+      		<xsd:sequence>
+
+      			<xsd:element maxOccurs="1" minOccurs="0" name="LocalDocQueryResult" type="xsd:string"/>
+      		</xsd:sequence>
+      	</xsd:complexType>
+      </xsd:element>
+      <xsd:element name="PassInfo">
+      	<xsd:complexType>
+      		<xsd:sequence>
+
+      			<xsd:element maxOccurs="unbounded" minOccurs="0" name="message" type="tns:Message">
+      			</xsd:element>
+      			<xsd:element maxOccurs="1" minOccurs="1" name="queryName" type="xsd:string">
+      			</xsd:element>
+      			<xsd:element maxOccurs="1" minOccurs="0" name="orgServer" type="xsd:string"/>
+      		</xsd:sequence>
+      	</xsd:complexType>
+      </xsd:element>
+      <xsd:element name="PassInfoResponse">
+      	<xsd:complexType>
+      		<xsd:sequence>
+
+      			<xsd:element maxOccurs="1" minOccurs="0" name="result" type="xsd:string"/>
+      		</xsd:sequence>
+      	</xsd:complexType>
+      </xsd:element>
+      <xsd:element name="ParallelInfo">
+      	<xsd:complexType>
+      		<xsd:sequence>
+
+      			<xsd:element maxOccurs="1" minOccurs="0" name="author" type="xsd:string"/>
+      			<xsd:element maxOccurs="1" minOccurs="0" name="stime" type="xsd:string"/>
+      			<xsd:element maxOccurs="1" minOccurs="0" name="lat" type="xsd:string"/>
+      			<xsd:element maxOccurs="1" minOccurs="0" name="lon" type="xsd:string"/>
+      			<xsd:element maxOccurs="1" minOccurs="0" name="tags" type="xsd:string"/>
+      			<xsd:element maxOccurs="1" minOccurs="0" name="type" type="xsd:string"/>
+      		</xsd:sequence>
+      	</xsd:complexType>
+      </xsd:element>
+      <xsd:element name="ParallelInfoResponse">
+      	<xsd:complexType>
+      		<xsd:sequence>
+
+      			<xsd:element maxOccurs="unbounded" minOccurs="0" name="message" type="tns:Message"/>
+      		</xsd:sequence>
+      	</xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="ParallelInfoResponse">
+    <wsdl:part name="parameters" element="tns:ParallelInfoResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SearchDocumentRequest">
+    <wsdl:part name="parameters" element="tns:SearchDocument">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="PassInfoRequest">
+    <wsdl:part name="parameters" element="tns:PassInfo">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ParallelInfoRequest">
+    <wsdl:part name="parameters" element="tns:ParallelInfo">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="LocalDocQueryResponse">
+    <wsdl:part name="parameters" element="tns:LocalDocQueryResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetDocumentRequest">
+    <wsdl:part name="parameters" element="tns:GetDocument">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SearchDocumentResponse">
+    <wsdl:part name="parameters" element="tns:SearchDocumentResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="PassInfoResponse">
+    <wsdl:part name="parameters" element="tns:PassInfoResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetDocumentResponse">
+    <wsdl:part name="parameters" element="tns:GetDocumentResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="LocalDocQueryRequest">
+    <wsdl:part name="parameters" element="tns:LocalDocQuery">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="Document">
+    <wsdl:operation name="SearchDocument">
+      <wsdl:input message="tns:SearchDocumentRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:SearchDocumentResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDocument">
+      <wsdl:input message="tns:GetDocumentRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:GetDocumentResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LocalDocQuery">
+      <wsdl:input message="tns:LocalDocQueryRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:LocalDocQueryResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PassInfo">
+      <wsdl:input message="tns:PassInfoRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:PassInfoResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ParallelInfo">
+      <wsdl:input message="tns:ParallelInfoRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:ParallelInfoResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="DocumentSOAP" type="tns:Document">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="SearchDocument">
+      <soap:operation soapAction="http://www.example.org/Document/SearchDocument"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDocument">
+      <soap:operation soapAction="http://www.example.org/Document/GetDocument"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LocalDocQuery">
+      <soap:operation soapAction="http://www.example.org/Document/LocalDocQuery"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PassInfo">
+      <soap:operation soapAction="http://www.example.org/Document/PassInfo"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ParallelInfo">
+      <soap:operation soapAction="http://www.example.org/Document/ParallelInfo"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Document">
+    <wsdl:port name="DocumentSOAP" binding="tns:DocumentSOAP">
+      <soap:address location="http://www.example.org/"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

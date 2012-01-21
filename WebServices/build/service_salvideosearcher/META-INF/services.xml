@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file was auto-generated from WSDL -->
+<!-- by the Apache Axis2 version: 1.5  Built on : Apr 30, 2009 (06:07:24 EDT) -->
+<serviceGroup>
+    <service name="SALVideoSearcher">
+        <messageReceivers>
+            <messageReceiver mep="http://www.w3.org/ns/wsdl/in-out" class="ws.cmpe275.salvideosearcher.SALVideoSearcherMessageReceiverInOut"/>
+        </messageReceivers>
+        <parameter name="ServiceClass">ws.cmpe275.salvideosearcher.ServerSALVideoSearcher</parameter>
+        <parameter name="useOriginalwsdl">true</parameter>
+        <parameter name="modifyUserWSDLPortAddress">true</parameter>
+        <operation name="Query" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://www.example.org/SALVideoSearcher/">
+            <actionMapping>http://www.example.org/SALVideoSearcher/Query</actionMapping>
+            <outputActionMapping>http://www.example.org/SALVideoSearcher/SALVideoSearcher/QueryResponse</outputActionMapping>
+        </operation>
+        <operation name="Get" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://www.example.org/SALVideoSearcher/">
+            <actionMapping>http://www.example.org/SALVideoSearcher/Get</actionMapping>
+            <outputActionMapping>http://www.example.org/SALVideoSearcher/SALVideoSearcher/GetResponse</outputActionMapping>
+        </operation>
+    </service>
+</serviceGroup>

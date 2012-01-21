@@ -1,0 +1,1150 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<project name='ws-demo' default='help' basedir='.'>
+
+	<!-- ========================================= -->
+
+	<target name='help'>
+		<echo>
+			Web Service - data tuple example
+
+			Requires: 1. Axis2 (built against v1.5) 2. Tomcat (1.6.x)
+
+			Build Notes: 1. Build server and deploy before building the
+			client as it depends on the service (.aar) for the WSDL. 2.
+			Modify properties axis2.home, tomcat.home, and wsdl to your
+			environment.
+
+			Primary Targets: 1. Server: aar deploy 2. Client:
+			compile.client demo
+		</echo>
+	</target>
+
+	<!-- ========================================= -->
+
+	<target name='init'>
+		<property name='resources.dir' value='${basedir}/resources' />
+		<property name='build.dir' value='${basedir}/build' />
+		<property name='service.aar' value='${build.dir}/Search.aar' />
+		<property name='service_1.aar' value='${build.dir}/Document.aar' />
+		<property name='service_2.aar' value='${build.dir}/Video.aar' />
+		<property name='service_3.aar' value='${build.dir}/Site.aar' />
+		<property name='service_4.aar' value='${build.dir}/Lookup.aar' />
+		<property name='service_5.aar' value='${build.dir}/ParallelProc.aar' />
+		
+		<property name='service_6.aar' value='${build.dir}/SALVideoSearcher.aar' />
+		
+		<property name='wsdl' value='resources/Data.wsdl' />
+		<property name='wsdl_doc' value='resources/Document.wsdl' />
+		<property name='wsdl_video' value='resources/Video.wsdl' />
+		<property name='wsdl_site' value='resources/Site.wsdl' />
+		<property name='wsdl_lookup' value='resources/Lookup.wsdl' />
+		<property name='wsdl_parallelproc' value='resources/ParallelProc.wsdl' />
+		
+		<property name='wsdl_salvideosearcher' value='resources/SALVideoSearcher.wsdl' />
+		
+		
+		<!-- installation specific -->
+		<property name='axis2.home' value='C:/axis2' />
+		<property name='junit.jar'
+			value='D:/eclipse-galileo/eclipse/plugins/org.junit4_4.5.0.v20090824/junit.jar' />
+		<property name='hibernate.home' value='D:\work6\Lab2-6\HLib' />
+		
+		
+		<!--property name='tomcat.home' value='C:/apache-tomcat-6.0.20' /-->
+		<property name='tomcat.home1' value='C:/t1' />
+		<property name='tomcat.home2' value='C:/t2' />
+		<property name='tomcat.home3' value='C:/t3' />
+		<property name='tomcat.home4' value='C:/t4' />
+		<property name='tomcat.home5' value='C:/t5' />
+		<property name='tomcat.home6' value='C:/t6' />
+		<property name='tomcat.home7' value='C:/t7' />
+		
+		<property name='mysql.connector' value='${resources.dir}/mysql-connector-java-5.1.10-bin.jar' />
+		<property name='content.path' value='${resources.dir}/Content' />
+		<property name='mysql.user' value='root' />
+		<property name='mysql.pw' value='' />
+		
+		<property name='image.home' value='C:/image' />		
+		<property name='document.home' value='C:/document' />	
+		<property name='video.home' value='C:/video' />	
+		<property name='site.home' value='C:/site' />	
+		<property name='sal.home' value='C:/salvideo' />
+		
+		
+		<path id='build.classpath'>
+			<pathelement location='${basedir}/bin' />
+			<pathelement location='${build.dir}/service' />
+			<pathelement location='${build.dir}/generated/bin' />
+			<pathelement location='${build.dir}/generated_doc/bin' />
+			<pathelement location='${build.dir}/generated_video/bin' />
+			<pathelement location='${build.dir}/generated_site/bin' />
+			<pathelement location='${build.dir}/generated_lookup/bin' />
+			<pathelement location='${build.dir}/generated_parallelproc/bin' />
+			<pathelement location='${build.dir}/generated_salvideosearcher/bin' />
+			
+			
+			<pathelement location='${junit.jar}' />
+			<fileset dir='${axis2.home}/lib'>
+				<include name='**/*.jar' />
+			</fileset>
+			
+			<fileset dir='${hibernate.home}'>
+				<include name='**/*.jar' />
+			</fileset>
+			
+			
+		</path>
+	</target>
+
+	<!-- ========================================= -->
+
+		
+	<target name='clean' depends='init'>
+		<delete dir='${build.dir}' />
+		<delete dir='${basedir}/bin' />
+		<delete dir='${basedir}/FileReceived' />
+		<mkdir dir='${basedir}/bin' />
+		<mkdir dir='${basedir}/FileReceived' />
+	</target>
+
+	<!-- ========================================= -->
+	<!--target name="build-db" depends="init">
+			<copy file="${resources.dir}/salvideodatabase.sql" tofile="${resources.dir}/salvideodatabase-temp.sql" />
+			<replace file="${resources.dir}/salvideodatabase-temp.sql" token="$CONTENTPATH" value="${content.path}" />
+			<replace file="${resources.dir}/salvideodatabase-temp.sql" token='\' value="/" />
+
+			<sql driver="com.mysql.jdbc.Driver"
+				url="jdbc:mysql://localhost:3306"
+			    userid="${mysql.user}"
+			    password="${mysql.pw}"
+			    src="${resources.dir}/salvideodatabase-temp.sql"
+				print="true"
+				autocommit="true"
+				onerror="continue">
+				<classpath>
+					<pathelement location="${mysql.connector}" />
+				</classpath>
+			</sql>
+			
+			<delete file="${resources.dir}/salvideodatabase-temp.sql" />
+		
+		
+			<mkdir dir="${sal.home}" />
+				
+				<copy todir='${sal.home}'>
+					<fileset dir='${resources.dir}/Content'>
+						<include name='**/*' />
+					</fileset>
+				</copy>
+		
+		</target-->
+	
+	
+	<target name="MYSQL_populate-data" depends="init">
+						
+		<mkdir dir="${image.home}" />
+		<mkdir dir="${document.home}" />
+		<mkdir dir="${video.home}" />
+		<mkdir dir="${site.home}" />
+		<mkdir dir="${sal.home}" />
+		
+		<copy todir='${sal.home}'>
+			<fileset dir='${resources.dir}/Content'>
+				<include name='**/*' />
+			</fileset>
+		</copy>
+		
+		<copy todir='${image.home}'>
+			<fileset dir='${resources.dir}/image'>
+				<include name='**/*' />
+			</fileset>
+		</copy>
+
+		<copy todir='${document.home}'>
+					<fileset dir='${resources.dir}/document'>
+						<include name='**/*' />
+					</fileset>
+		</copy>
+		
+		<copy todir='${video.home}'>
+					<fileset dir='${resources.dir}/video'>
+						<include name='**/*' />
+					</fileset>
+		</copy>
+			
+		<copy todir='${site.home}'>
+						<fileset dir='${resources.dir}/site'>
+							<include name='**/*' />
+						</fileset>
+		</copy>
+			
+				<sql driver="com.mysql.jdbc.Driver"
+					url="jdbc:mysql://localhost:3306"
+				    userid="${mysql.user}"
+				    password="${mysql.pw}"
+				    src="${resources.dir}/cmpedb.sql"
+					print="true"
+					autocommit="true"
+					onerror="continue">
+					<classpath>
+						<pathelement location="${mysql.connector}" />
+					</classpath>
+				</sql>
+			</target>
+	
+	<!-- ========================================= -->
+	
+	
+	<target name='ALL'
+		depends='clean,wsdl,wsdl_doc,wsdl_video,wsdl_site,wsdl_lookup,wsdl_parallelproc,wsdl_salvideosearcher,compile.wsdl,compile.wsdl_doc,compile.wsdl_video,compile.wsdl_site,compile.wsdl_lookup,compile.wsdl_parallelproc,compile.wsdl_salvideosearcher,compile.src,aar,doc_aar,video_aar,site_aar,lookup_aar,parallelproc_aar,salvideosearcher_aar,jar,jar_doc,jar_video,jar_site,jar_lookup,jar_salvideo'>
+		<echo>Deployment to tomcat is separate: ant deploy</echo>
+	</target>
+
+	<target name='RUN PARALLEL PROCESS' depends='compile.src'>
+			<java fork='yes' classname='ws.demo.client.ParallelRun'>
+				<classpath refid='build.classpath' />
+			</java>	
+	</target>
+	
+	
+	<target name='lookup-build'
+			depends='wsdl_lookup,compile.wsdl_lookup,compile.src,lookup_aar,jar_lookup'>
+			<echo>Deployment to tomcat is separate: ant deploy</echo>
+	</target>
+	
+	<target name='image-build'
+			depends='wsdl,compile.wsdl,compile.src,aar,jar'>
+			<echo>Deployment to tomcat is separate: ant deploy</echo>
+	</target>
+	
+	<target name='document-build'
+			depends='wsdl,wsdl_doc,compile.wsdl_doc,compile.src,doc_aar,jar_doc'>
+			<echo>Deployment to tomcat is separate: ant deploy</echo>
+	</target>
+	
+	<target name='video-build'
+			depends='wsdl_video,compile.wsdl_video,compile.src,video_aar,jar_video'>
+			<echo>Deployment to tomcat is separate: ant deploy</echo>
+	</target>
+	
+	<target name='site-build'
+			depends='wsdl_site,compile.wsdl_video,compile.src,site_aar,jar_site'>
+			<echo>Deployment to tomcat is separate: ant deploy</echo>
+	</target>
+	
+	<target name='parallelproc-build'
+				depends='wsdl_parallelproc,compile.wsdl_parallelproc,compile.src,parallelproc_aar'>
+				<echo>Deployment to tomcat is separate: ant deploy</echo>
+	</target>
+	
+	<target name='salvideosearcher-build'
+			depends='clean,wsdl_salvideosearcher,compile.wsdl_salvideosearcher,compile.src,salvideosearcher_aar,jar_salvideo'>
+			<echo>Deployment to tomcat is separate: ant deploy</echo>
+	</target>
+	
+	
+	
+	<!-- ========================================= -->
+	<target name='compile.service' depends='init'>
+		<mkdir dir='${build.dir}/service' />
+		<javac debug='on' fork='true' destdir='${build.dir}/service'
+			srcdir='${basedir}/src' classpathref='build.classpath'>
+		</javac>
+	</target>
+
+	<!-- ========================================= -->
+	<!-- see http://ws.apache.org/axis2/tools/1_4/CodegenToolReference.html -->
+
+	<target name="wsdl" depends='init'>
+		<delete dir='${build.dir}/generated' />
+		<mkdir dir='${build.dir}/generated' />
+		<mkdir dir='${build.dir}/generated/bin' />
+		<copy todir='${build.dir}/generated/bin'
+			file='${basedir}/resources/log4j.properties' />
+		<!--copy todir='${build.dir}/generated/bin'
+			file='${basedir}/resources/Data.wsdl' /-->
+		
+		<java classname="org.apache.axis2.wsdl.WSDL2Java">
+			<arg value="-uri" />
+			<arg value="${wsdl}" />
+			<arg value="-ss" />
+			<arg value="-ssi" />
+			<arg value="-g" />
+			<arg value="-sync" />
+			<arg value="-t" />
+			<arg value="-sd" />
+			<arg value="-p" />
+			<arg value="ws.cmpe275.idl" />
+			<arg value="-o" />
+			<arg value="${build.dir}/generated" />
+			<arg value="-f" />
+			<classpath refid="build.classpath" />
+		</java>
+	</target>
+	
+	<target name="wsdl_doc" depends='init'>
+			<delete dir='${build.dir}/generated_doc' />
+			<mkdir dir='${build.dir}/generated_doc' />
+			<mkdir dir='${build.dir}/generated_doc/bin' />
+			<copy todir='${build.dir}/generated_doc/bin'
+				file='${basedir}/resources/log4j.properties' />
+			<!--copy todir='${build.dir}/generated/bin'
+				file='${basedir}/resources/Data.wsdl' /-->
+			
+			<java classname="org.apache.axis2.wsdl.WSDL2Java">
+				<arg value="-uri" />
+				<arg value="${wsdl_doc}" />
+				<arg value="-ss" />
+				<arg value="-ssi" />
+				<arg value="-g" />
+				<arg value="-sync" />
+				<arg value="-t" />
+				<arg value="-sd" />
+				<arg value="-p" />
+				<arg value="ws.cmpe275.document" />
+				<arg value="-o" />
+				<arg value="${build.dir}/generated_doc" />
+				<arg value="-f" />
+				<classpath refid="build.classpath" />
+			</java>
+		</target>
+	
+	<target name="wsdl_video" depends='init'>
+				<delete dir='${build.dir}/generated_video' />
+				<mkdir dir='${build.dir}/generated_video' />
+				<mkdir dir='${build.dir}/generated_video/bin' />
+				<copy todir='${build.dir}/generated_video/bin'
+					file='${basedir}/resources/log4j.properties' />
+				<!--copy todir='${build.dir}/generated/bin'
+					file='${basedir}/resources/Data.wsdl' /-->
+				
+				<java classname="org.apache.axis2.wsdl.WSDL2Java">
+					<arg value="-uri" />
+					<arg value="${wsdl_video}" />
+					<arg value="-ss" />
+					<arg value="-ssi" />
+					<arg value="-g" />
+					<arg value="-sync" />
+					<arg value="-t" />
+					<arg value="-sd" />
+					<arg value="-p" />
+					<arg value="ws.cmpe275.video" />
+					<arg value="-o" />
+					<arg value="${build.dir}/generated_video" />
+					<arg value="-f" />
+					<classpath refid="build.classpath" />
+				</java>
+			</target>
+	
+	
+	<target name="wsdl_site" depends='init'>
+					<delete dir='${build.dir}/generated_site' />
+					<mkdir dir='${build.dir}/generated_site' />
+					<mkdir dir='${build.dir}/generated_site/bin' />
+					<copy todir='${build.dir}/generated_site/bin'
+						file='${basedir}/resources/log4j.properties' />
+					<!--copy todir='${build.dir}/generated/bin'
+						file='${basedir}/resources/Data.wsdl' /-->
+					
+					<java classname="org.apache.axis2.wsdl.WSDL2Java">
+						<arg value="-uri" />
+						<arg value="${wsdl_site}" />
+						<arg value="-ss" />
+						<arg value="-ssi" />
+						<arg value="-g" />
+						<arg value="-sync" />
+						<arg value="-t" />
+						<arg value="-sd" />
+						<arg value="-p" />
+						<arg value="ws.cmpe275.site" />
+						<arg value="-o" />
+						<arg value="${build.dir}/generated_site" />
+						<arg value="-f" />
+						<classpath refid="build.classpath" />
+					</java>
+	</target>
+		
+	<target name="wsdl_lookup" depends='init'>
+						<delete dir='${build.dir}/generated_lookup' />
+						<mkdir dir='${build.dir}/generated_lookup' />
+						<mkdir dir='${build.dir}/generated_lookup/bin' />
+						<copy todir='${build.dir}/generated_lookup/bin'
+							file='${basedir}/resources/log4j.properties' />
+						<!--copy todir='${build.dir}/generated/bin'
+							file='${basedir}/resources/Data.wsdl' /-->
+						
+						<java classname="org.apache.axis2.wsdl.WSDL2Java">
+							<arg value="-uri" />
+							<arg value="${wsdl_lookup}" />
+							<arg value="-ss" />
+							<arg value="-ssi" />
+							<arg value="-g" />
+							<arg value="-sync" />
+							<arg value="-t" />
+							<arg value="-sd" />
+							<arg value="-p" />
+							<arg value="ws.cmpe275.lookup" />
+							<arg value="-o" />
+							<arg value="${build.dir}/generated_lookup" />
+							<arg value="-f" />
+							<classpath refid="build.classpath" />
+						</java>
+		</target>
+			
+		<target name="wsdl_parallelproc" depends='init'>
+							<delete dir='${build.dir}/generated_parallelproc' />
+							<mkdir dir='${build.dir}/generated_parallelproc' />
+							<mkdir dir='${build.dir}/generated_parallelproc/bin' />
+							<copy todir='${build.dir}/generated_parallelproc/bin'
+								file='${basedir}/resources/log4j.properties' />
+							<!--copy todir='${build.dir}/generated/bin'
+								file='${basedir}/resources/Data.wsdl' /-->
+							
+							<java classname="org.apache.axis2.wsdl.WSDL2Java">
+								<arg value="-uri" />
+								<arg value="${wsdl_parallelproc}" />
+								<arg value="-ss" />
+								<arg value="-ssi" />
+								<arg value="-g" />
+								<arg value="-sync" />
+								<arg value="-t" />
+								<arg value="-sd" />
+								<arg value="-p" />
+								<arg value="ws.cmpe275.parallelproc" />
+								<arg value="-o" />
+								<arg value="${build.dir}/generated_parallelproc" />
+								<arg value="-f" />
+								<classpath refid="build.classpath" />
+							</java>
+			</target>
+				
+	
+			<target name="wsdl_salvideosearcher" depends='init'>
+								<delete dir='${build.dir}/generated_salvideosearcher' />
+								<mkdir dir='${build.dir}/generated_salvideosearcher' />
+								<mkdir dir='${build.dir}/generated_salvideosearcher/bin' />
+								<copy todir='${build.dir}/generated_salvideosearcher/bin'
+									file='${basedir}/resources/log4j.properties' />
+								<!--copy todir='${build.dir}/generated/bin'
+									file='${basedir}/resources/Data.wsdl' /-->
+								
+								<java classname="org.apache.axis2.wsdl.WSDL2Java">
+									<arg value="-uri" />
+									<arg value="${wsdl_salvideosearcher}" />
+									<arg value="-ss" />
+									<arg value="-ssi" />
+									<arg value="-g" />
+									<arg value="-sync" />
+									<arg value="-t" />
+									<arg value="-sd" />
+									<arg value="-p" />
+									<arg value="ws.cmpe275.salvideosearcher" />
+									<arg value="-o" />
+									<arg value="${build.dir}/generated_salvideosearcher" />
+									<arg value="-f" />
+									<classpath refid="build.classpath" />
+								</java>
+				</target>
+	
+	
+	<!-- ========================================= -->
+
+	<target name='compile.wsdl' depends='init'>
+		<mkdir dir='${build.dir}/generated/bin' />
+		<javac debug='on' fork='true'
+			destdir='${build.dir}/generated/bin' srcdir='${build.dir}/generated'
+			classpathref='build.classpath'>
+		</javac>
+	</target>
+
+	<target name='compile.wsdl_doc' depends='init'>
+			<mkdir dir='${build.dir}/generated_doc/bin' />
+			<javac debug='on' fork='true'
+				destdir='${build.dir}/generated_doc/bin' srcdir='${build.dir}/generated_doc'
+				classpathref='build.classpath'>
+			</javac>
+	</target>
+	
+	<target name='compile.wsdl_video' depends='init'>
+			<mkdir dir='${build.dir}/generated_doc/bin' />
+			<javac debug='on' fork='true'
+					destdir='${build.dir}/generated_video/bin' srcdir='${build.dir}/generated_video'
+					classpathref='build.classpath'>
+			</javac>
+	</target>
+	
+	<target name='compile.wsdl_site' depends='init'>
+				<mkdir dir='${build.dir}/generated_site/bin' />
+				<javac debug='on' fork='true'
+						destdir='${build.dir}/generated_site/bin' srcdir='${build.dir}/generated_site'
+						classpathref='build.classpath'>
+				</javac>
+	</target>
+	
+	<target name='compile.wsdl_lookup' depends='init'>
+				<mkdir dir='${build.dir}/generated_lookup/bin' />
+				<javac debug='on' fork='true'
+					destdir='${build.dir}/generated_lookup/bin' srcdir='${build.dir}/generated_lookup'
+					classpathref='build.classpath'>
+				</javac>
+	</target>
+	
+	<target name='compile.wsdl_parallelproc' depends='init'>
+					<mkdir dir='${build.dir}/generated_parallelproc/bin' />
+					<javac debug='on' fork='true'
+						destdir='${build.dir}/generated_parallelproc/bin' srcdir='${build.dir}/generated_parallelproc'
+						classpathref='build.classpath'>
+					</javac>
+	</target>
+	
+	<target name='compile.wsdl_salvideosearcher' depends='init'>
+						<mkdir dir='${build.dir}/generated_salvideosearcher/bin' />
+						<javac debug='on' fork='true'
+							destdir='${build.dir}/generated_salvideosearcher/bin' srcdir='${build.dir}/generated_salvideosearcher'
+							classpathref='build.classpath'>
+						</javac>
+	</target>
+	
+	
+	
+	<target name='compile.src' depends='init'>
+		<javac debug='on' fork='true' destdir='${basedir}/bin'
+			srcdir='${basedir}/src' classpathref='build.classpath'>
+		</javac>
+	</target>
+
+	<target name='jar' depends='init'>	
+		<jar destfile="${build.dir}/hdb-image.jar">
+			<fileset dir='${basedir}/bin'>
+				<include name='**/ws/cmpe275/db/bean/**' />
+				<exclude name="**/*.xml" />
+			</fileset>
+			
+			<fileset dir='${resources.dir}'>
+			<include name='**/contact.hbm.xml' />
+			<include name='**/hibernate_image.cfg.xml' />
+			</fileset>
+		</jar>
+	</target>
+	
+	<target name='jar_doc' depends='init'>	
+		<jar destfile="${build.dir}/hdb-document.jar">
+			<fileset dir='${basedir}/bin'>
+				<include name='**/ws/cmpe275/db/bean/**' />
+				<exclude name="**/*.xml" />
+			</fileset>
+				
+			<fileset dir='${resources.dir}'>
+			<include name='**/document.hbm.xml' />
+			<include name='**/hibernate_doc.cfg.xml' />
+			</fileset>
+			</jar>
+	</target>
+	
+	
+	<target name='jar_video' depends='init'>	
+		<jar destfile="${build.dir}/hdb-video.jar">
+			<fileset dir='${basedir}/bin'>
+				<include name='**/ws/cmpe275/db/bean/**' />
+				<exclude name="**/*.xml" />
+			</fileset>
+					
+			<fileset dir='${resources.dir}'>
+			<include name='**/video.hbm.xml' />
+			<include name='**/hibernate_video.cfg.xml' />
+			</fileset>
+		</jar>
+	</target>
+	
+	<target name='jar_salvideo' depends='init'>	
+			<jar destfile="${build.dir}/hdb-salvideo.jar">
+				<fileset dir='${basedir}/bin'>
+					<include name='**/ws/cmpe275/db/bean/**' />
+					<exclude name="**/*.xml" />
+				</fileset>
+						
+				<fileset dir='${resources.dir}'>
+				<include name='**/mapping.hbm.xml' />
+				<include name='**/hibernate_salvideo.cfg.xml' />
+				</fileset>
+			</jar>
+		</target>
+	
+	
+	
+	
+	<target name='jar_site' depends='init'>	
+			<jar destfile="${build.dir}/hdb-site.jar">
+				<fileset dir='${basedir}/bin'>
+					<include name='**/ws/cmpe275/db/bean/**' />
+					<exclude name="**/*.xml" />
+				</fileset>
+						
+				<fileset dir='${resources.dir}'>
+				<include name='**/site.hbm.xml' />
+				<include name='**/hibernate_site.cfg.xml' />
+				</fileset>
+			</jar>
+	</target>
+	
+	 
+	<target name='jar_lookup' depends='init'>	
+				<jar destfile="${build.dir}/hdb-lookup.jar">
+					<fileset dir='${basedir}/bin'>
+						<include name='**/ws/cmpe275/db/bean/**' />
+						<exclude name="**/*.xml" />
+					</fileset>
+							
+					<fileset dir='${resources.dir}'>
+					<include name='**/lookup.hbm.xml' />
+					<include name='**/hibernate_lookup.cfg.xml' />
+					</fileset>
+				</jar>
+	</target>
+	
+	
+	
+	<!-- ========================================= -->
+
+	<target name='aar' depends='compile.wsdl'>
+
+		<!--
+			<copy todir='${build.dir}/service'>
+			<fileset dir='${basedir}/resources'>
+			<include name='**/*' />
+			</fileset>
+			</copy>
+		-->
+
+		<!-- generated classes from wsdl2java -->
+			<copy todir='${build.dir}/service'>
+				<fileset dir='${build.dir}/generated_site/bin'>
+					<include name='**/*' />
+				</fileset>
+		</copy>
+		
+		<!-- generated classes from wsdl2java -->
+		<copy todir='${build.dir}/service'>
+			<fileset dir='${build.dir}/generated/bin'>
+				<include name='**/*' />
+			</fileset>
+		</copy>
+		
+		<!--copy document aggregators files -->
+		<copy todir='${build.dir}/service'>
+			<fileset dir='${build.dir}/generated_doc/bin'>
+				<include name='**/*' />
+			</fileset>
+		</copy>
+		
+		<!--copy lookup aggregators files -->
+		<copy todir='${build.dir}/service'>
+			<fileset dir='${build.dir}/generated_lookup/bin'>
+				<include name='**/*' />
+				</fileset>
+		</copy>
+		
+
+		<!-- our server implementation -->
+		<copy todir='${build.dir}/service'>
+			<fileset dir='${basedir}/bin'>
+				<include name='**/ws/cmpe275/**' />
+			</fileset>
+		</copy>
+
+		<mkdir dir='${build.dir}/service/META-INF' />
+		<copy todir='${build.dir}/service/META-INF'
+			file='${build.dir}/generated/services.xml' />
+		<copy todir='${build.dir}/service/META-INF'
+			file='${build.dir}/generated/Search.wsdl' />
+		
+				
+		<!-- override the services.xml with the correct implementation of the service -->
+		<replace file="${build.dir}/service/META-INF/services.xml"
+			token="SearchSkeleton" value="Server" />
+
+		<jar compress='false' filesonly='true'
+			destfile='${service.aar}'>
+			<fileset dir='${build.dir}/service'>
+				<include name='**/*' />
+			</fileset>
+		</jar>
+	</target>
+	
+	<!-- ================= Document.aar creation =================== -->
+	<target name='doc_aar' depends='compile.wsdl_doc'>
+
+			<!--
+				<copy todir='${build.dir}/service'>
+				<fileset dir='${basedir}/resources'>
+				<include name='**/*' />
+				</fileset>
+				</copy>
+			-->
+
+			<!-- generated classes from wsdl2java -->
+			<copy todir='${build.dir}/service_doc'>
+				<fileset dir='${build.dir}/generated_doc/bin'>
+					<include name='**/*' />
+				</fileset>
+			</copy>
+		
+			<!--copy lookup aggregators files -->
+				<copy todir='${build.dir}/service_doc'>
+					<fileset dir='${build.dir}/generated_lookup/bin'>
+						<include name='**/*' />
+						</fileset>
+				</copy>	
+
+		<!--copy lookup aggregators files -->
+				<copy todir='${build.dir}/service_doc'>
+					<fileset dir='${build.dir}/generated_video/bin'>
+						<include name='**/*' />
+						</fileset>
+				</copy>	
+		
+		
+			<!-- our server implementation -->
+			<copy todir='${build.dir}/service_doc'>
+				<fileset dir='${basedir}/bin'>
+					<include name='**/ws/cmpe275/**' />
+				</fileset>
+			</copy>
+
+			<mkdir dir='${build.dir}/service_doc/META-INF' />
+			<copy todir='${build.dir}/service_doc/META-INF'
+				file='${build.dir}/generated_doc/services.xml' />
+			<copy todir='${build.dir}/service_doc/META-INF'
+				file='${build.dir}/generated_doc/Document.wsdl' />
+			
+					
+			<!-- override the services.xml with the correct implementation of the service -->
+			<replace file="${build.dir}/service_doc/META-INF/services.xml"
+				token="DocumentSkeleton" value="ServerDoc" />
+
+			<jar compress='false' filesonly='true'
+				destfile='${service_1.aar}'>
+				<fileset dir='${build.dir}/service_doc'>
+					<include name='**/*' />
+				</fileset>
+			</jar>
+		</target>
+	
+	<!-- =================Video.aar creation======================== -->
+	<target name='video_aar' depends='compile.wsdl_video'>
+
+				<!--
+					<copy todir='${build.dir}/service'>
+					<fileset dir='${basedir}/resources'>
+					<include name='**/*' />
+					</fileset>
+					</copy>
+				-->
+	
+				<copy todir='${build.dir}/service_video'>
+						<fileset dir='${build.dir}/generated_salvideosearcher/bin'>
+							<include name='**/*' />
+						</fileset>
+				</copy>
+		
+				<!-- generated classes from wsdl2java -->
+				<copy todir='${build.dir}/service_video'>
+					<fileset dir='${build.dir}/generated_video/bin'>
+						<include name='**/*' />
+					</fileset>
+				</copy>
+
+				<!--copy lookup aggregators files -->
+				<copy todir='${build.dir}/service_video'>
+					<fileset dir='${build.dir}/generated_lookup/bin'>
+						<include name='**/*' />
+						</fileset>
+				</copy>
+		
+				<!--copy lookup aggregators files -->
+					<copy todir='${build.dir}/service_video'>
+						<fileset dir='${build.dir}/generated_site/bin'>
+							<include name='**/*' />
+						</fileset>
+				</copy>
+		
+				<!-- our server implementation -->
+				<copy todir='${build.dir}/service_video'>
+					<fileset dir='${basedir}/bin'>
+						<include name='**/ws/cmpe275/**' />
+					</fileset>
+				</copy>
+
+				<mkdir dir='${build.dir}/service_video/META-INF' />
+				<copy todir='${build.dir}/service_video/META-INF'
+					file='${build.dir}/generated_video/services.xml' />
+				<copy todir='${build.dir}/service_video/META-INF'
+					file='${build.dir}/generated_video/Video.wsdl' />
+				
+						
+				<!-- override the services.xml with the correct implementation of the service -->
+				<replace file="${build.dir}/service_video/META-INF/services.xml"
+					token="VideoSkeleton" value="ServerVideo" />
+
+				<jar compress='false' filesonly='true'
+					destfile='${service_2.aar}'>
+					<fileset dir='${build.dir}/service_video'>
+						<include name='**/*' />
+					</fileset>
+				</jar>
+			</target>
+	
+	<!-- =================site.aar file creation======================== -->
+	<target name='site_aar' depends='compile.wsdl_site'>
+
+					<!--
+						<copy todir='${build.dir}/service'>
+						<fileset dir='${basedir}/resources'>
+						<include name='**/*' />
+						</fileset>
+						</copy>
+					-->
+
+					<!-- generated classes from wsdl2java -->
+					<copy todir='${build.dir}/service_site'>
+						<fileset dir='${build.dir}/generated/bin'>
+							<include name='**/*' />
+						</fileset>
+					</copy>
+		
+					<!-- generated classes from wsdl2java -->
+					<copy todir='${build.dir}/service_site'>
+						<fileset dir='${build.dir}/generated_site/bin'>
+							<include name='**/*' />
+						</fileset>
+					</copy>
+
+				<!--copy lookup aggregators files -->
+					<copy todir='${build.dir}/service_site'>
+						<fileset dir='${build.dir}/generated_lookup/bin'>
+							<include name='**/*' />
+						</fileset>
+					</copy>
+		
+		
+					<!-- our server implementation -->
+					<copy todir='${build.dir}/service_site'>
+						<fileset dir='${basedir}/bin'>
+							<include name='**/ws/cmpe275/**' />
+						</fileset>
+					</copy>
+
+					<mkdir dir='${build.dir}/service_site/META-INF' />
+					<copy todir='${build.dir}/service_site/META-INF'
+						file='${build.dir}/generated_site/services.xml' />
+					<copy todir='${build.dir}/service_site/META-INF'
+						file='${build.dir}/generated_site/Site.wsdl' />
+					
+							
+					<!-- override the services.xml with the correct implementation of the service -->
+					<replace file="${build.dir}/service_site/META-INF/services.xml"
+						token="SiteSkeleton" value="ServerSite" />
+
+					<jar compress='false' filesonly='true'
+						destfile='${service_3.aar}'>
+						<fileset dir='${build.dir}/service_site'>
+							<include name='**/*' />
+						</fileset>
+					</jar>
+				</target>
+		
+	<!-- ===============lookup.aar========================== -->
+	<target name='lookup_aar' depends='compile.wsdl_lookup'>
+
+						<!--
+							<copy todir='${build.dir}/service'>
+							<fileset dir='${basedir}/resources'>
+							<include name='**/*' />
+							</fileset>
+							</copy>
+						-->
+
+						<!-- generated classes from wsdl2java -->
+						<copy todir='${build.dir}/service_lookup'>
+							<fileset dir='${build.dir}/generated_lookup/bin'>
+								<include name='**/*' />
+							</fileset>
+						</copy>
+
+						<!-- our server implementation -->
+						<copy todir='${build.dir}/service_lookup'>
+							<fileset dir='${basedir}/bin'>
+								<include name='**/ws/cmpe275/**' />
+							</fileset>
+						</copy>
+
+						<mkdir dir='${build.dir}/service_lookup/META-INF' />
+						<copy todir='${build.dir}/service_lookup/META-INF'
+							file='${build.dir}/generated_lookup/services.xml' />
+						<copy todir='${build.dir}/service_lookup/META-INF'
+							file='${build.dir}/generated_lookup/Lookup.wsdl' />
+						
+								
+						<!-- override the services.xml with the correct implementation of the service -->
+						<replace file="${build.dir}/service_lookup/META-INF/services.xml"
+							token="LookupSkeleton" value="ServerLookup" />
+
+						<jar compress='false' filesonly='true'
+							destfile='${service_4.aar}'>
+							<fileset dir='${build.dir}/service_lookup'>
+								<include name='**/*' />
+							</fileset>
+						</jar>
+					</target>
+
+	
+	<!-- =================parallelproc.aar======================== -->
+	<target name='parallelproc_aar' depends='compile.wsdl_parallelproc'>
+
+							<!--
+								<copy todir='${build.dir}/service'>
+								<fileset dir='${basedir}/resources'>
+								<include name='**/*' />
+								</fileset>
+								</copy>
+							-->
+
+							<copy todir='${build.dir}/service_parallelproc'>
+								<fileset dir='${build.dir}/generated/bin'>
+									<include name='**/*' />
+								</fileset>
+							</copy>
+		
+		
+							<copy todir='${build.dir}/service_parallelproc'>
+								<fileset dir='${build.dir}/generated_site/bin'>
+									<include name='**/*' />
+								</fileset>
+							</copy>
+		
+						<copy todir='${build.dir}/service_parallelproc'>
+							<fileset dir='${build.dir}/generated_video/bin'>
+								<include name='**/*' />
+							</fileset>
+						</copy>
+		
+						<copy todir='${build.dir}/service_parallelproc'>
+							<fileset dir='${build.dir}/generated_doc/bin'>
+								<include name='**/*' />
+							</fileset>
+						</copy>
+		
+						<!--copy todir='${build.dir}/service_parallelproc'>
+								<fileset dir='${build.dir}/generated/bin'>
+									<include name='**/*' />
+								</fileset>
+						</copy-->
+		
+						<!-- generated classes from wsdl2java -->
+							<copy todir='${build.dir}/service_parallelproc'>
+								<fileset dir='${build.dir}/generated_parallelproc/bin'>
+									<include name='**/*' />
+								</fileset>
+							</copy>
+		
+		
+							<!-- generated classes from wsdl2java -->
+							<copy todir='${build.dir}/service_parallelproc'>
+								<fileset dir='${build.dir}/generated_lookup/bin'>
+									<include name='**/*' />
+								</fileset>
+							</copy>
+
+							<!-- our server implementation -->
+							<copy todir='${build.dir}/service_parallelproc'>
+								<fileset dir='${basedir}/bin'>
+									<include name='**/ws/cmpe275/**' />
+								</fileset>
+							</copy>
+
+							<mkdir dir='${build.dir}/service_parallelproc/META-INF' />
+							<copy todir='${build.dir}/service_parallelproc/META-INF'
+								file='${build.dir}/generated_parallelproc/services.xml' />
+							<copy todir='${build.dir}/service_parallelproc/META-INF'
+								file='${build.dir}/generated_parallelproc/ParallelProc.wsdl' />
+							
+									
+							<!-- override the services.xml with the correct implementation of the service -->
+							<replace file="${build.dir}/service_parallelproc/META-INF/services.xml"
+								token="ParallelProcSkeleton" value="ServerParallelProc" />
+
+							<jar compress='false' filesonly='true'
+								destfile='${service_5.aar}'>
+								<fileset dir='${build.dir}/service_parallelproc'>
+									<include name='**/*' />
+								</fileset>
+							</jar>
+						</target>
+
+	<!-- =================SALVideoSearcher.aar======================== -->
+	<target name='salvideosearcher_aar' depends='compile.wsdl_salvideosearcher'>
+
+								 
+								<copy todir='${build.dir}/service_salvideosearcher'>
+									<fileset dir='${build.dir}/generated/bin'>
+										<include name='**/*' />
+									</fileset>
+								</copy>
+			
+			
+								<copy todir='${build.dir}/service_salvideosearcher'>
+									<fileset dir='${build.dir}/generated_site/bin'>
+										<include name='**/*' />
+									</fileset>
+								</copy>
+			
+							<copy todir='${build.dir}/service_salvideosearcher'>
+								<fileset dir='${build.dir}/generated_video/bin'>
+									<include name='**/*' />
+								</fileset>
+							</copy>
+			
+							<copy todir='${build.dir}/service_salvideosearcher'>
+								<fileset dir='${build.dir}/generated_doc/bin'>
+									<include name='**/*' />
+								</fileset>
+							</copy>
+			
+							 
+			
+							<!-- generated classes from wsdl2java -->
+								<copy todir='${build.dir}/service_salvideosearcher'>
+									<fileset dir='${build.dir}/generated_salvideosearcher/bin'>
+										<include name='**/*' />
+									</fileset>
+								</copy>
+			
+			
+								<!-- generated classes from wsdl2java -->
+								<copy todir='${build.dir}/service_salvideosearcher'>
+									<fileset dir='${build.dir}/generated_lookup/bin'>
+										<include name='**/*' />
+									</fileset>
+								</copy>
+
+								<!-- our server implementation -->
+								<copy todir='${build.dir}/service_salvideosearcher'>
+									<fileset dir='${basedir}/bin'>
+										<include name='**/ws/cmpe275/**' />
+									</fileset>
+								</copy>
+
+								<mkdir dir='${build.dir}/service_salvideosearcher/META-INF' />
+								<copy todir='${build.dir}/service_salvideosearcher/META-INF'
+									file='${build.dir}/generated_salvideosearcher/services.xml' />
+								<copy todir='${build.dir}/service_salvideosearcher/META-INF'
+									file='${build.dir}/generated_salvideosearcher/SALVideoSearcher.wsdl' />
+								
+										
+								<!-- override the services.xml with the correct implementation of the service -->
+								<replace file="${build.dir}/service_salvideosearcher/META-INF/services.xml"
+									token="SALVideoSearcherSkeleton" value="ServerSALVideoSearcher" />
+
+								<jar compress='false' filesonly='true'
+									destfile='${service_6.aar}'>
+									<fileset dir='${build.dir}/service_salvideosearcher'>
+										<include name='**/*' />
+									</fileset>
+								</jar>
+							</target>
+
+	
+	
+	
+	
+	<!-- ========================================= -->
+	
+	<target name='deploy' depends='aar'>
+		<copy todir='${tomcat.home1}/webapps/axis2/WEB-INF/services'
+			file='${service.aar}' />
+	
+		<copy todir='${tomcat.home1}/webapps/axis2/WEB-INF/lib'
+			file='${build.dir}/hdb-image.jar' />
+		
+		<copy todir='${tomcat.home2}/webapps/axis2/WEB-INF/services'
+					file='${service_1.aar}' />
+			
+		<copy todir='${tomcat.home2}/webapps/axis2/WEB-INF/lib'
+					file='${build.dir}/hdb-document.jar' />
+		
+		<copy todir='${tomcat.home3}/webapps/axis2/WEB-INF/services'
+							file='${service_2.aar}' />
+		
+		<copy todir='${tomcat.home3}/webapps/axis2/WEB-INF/lib'
+							file='${build.dir}/hdb-video.jar' />
+		
+		<copy todir='${tomcat.home4}/webapps/axis2/WEB-INF/services'
+									file='${service_3.aar}' />
+				
+		<copy todir='${tomcat.home4}/webapps/axis2/WEB-INF/lib'
+									file='${build.dir}/hdb-site.jar' />
+		
+		<copy todir='${tomcat.home5}/webapps/axis2/WEB-INF/services'
+											file='${service_4.aar}' />
+		
+		<copy todir='${tomcat.home5}/webapps/axis2/WEB-INF/lib'
+									file='${build.dir}/hdb-lookup.jar' />
+		
+		<copy todir='${tomcat.home6}/webapps/axis2/WEB-INF/services'
+										file='${service_5.aar}' />	
+		
+		<copy todir='${tomcat.home7}/webapps/axis2/WEB-INF/services'
+												file='${service_6.aar}' />	
+	
+		<copy todir='${tomcat.home7}/webapps/axis2/WEB-INF/lib'
+									file='${build.dir}/hdb-salvideo.jar' />
+		
+		<copy todir='${tomcat.home4}/bin'
+					file='${basedir}/resources/axis2.xml' />	
+		
+	</target>
+ 
+	<!-- =================Testing======================== -->
+	
+	<!--target name='jar_test' depends='init'>	
+				<jar destfile="${build.dir}/test.jar">
+					<fileset dir='${basedir}/bin'>
+						<include name='**/ws/cmpe275/test/**' />
+						<exclude name="**/*.xml" />
+					</fileset>
+				</jar>
+	</target-->
+	
+	
+	<!--path id="unit.test.path">
+		<pathelement location="${build.dir}/test.jar" />
+	</path-->	
+	
+	
+	<target name="Hibernate_test" depends="compile.src">
+			<java classname="ws.cmpe275.jutest.HemsTest" fork="true">
+				<classpath refid='build.classpath'/>
+			</java>
+	</target>
+	
+	<target name="Mtom_test" depends="compile.src">
+				<java classname="ws.cmpe275.mtomtest.MtomTest" fork="true">
+					<classpath refid='build.classpath'/>
+				</java>
+	</target>
+	
+	<!-- ========================================= -->
+
+	<target name='RUN RING NETWORK' depends='compile.src'>
+		<java fork='yes' classname='ws.demo.client.Client'>
+			<classpath refid='build.classpath' />
+		</java>	
+	</target>
+	
+	
+	<target name='clean_FileReceived' depends='init'>
+			<delete dir='${basedir}/FileReceived' />
+			<mkdir dir='${basedir}/FileReceived' />
+	</target>
+	
+</project>

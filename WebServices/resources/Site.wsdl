@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.example.org/Site/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="Site" targetNamespace="http://www.example.org/Site/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://www.example.org/Site/">
+      <xsd:element name="SearchSite">
+        <xsd:complexType>
+          <xsd:sequence>
+          	<xsd:element name="author" type="xsd:string" />
+          	<xsd:element name="stime" type="xsd:string"></xsd:element>
+          	<xsd:element name="lat" type="xsd:string"></xsd:element>
+          	<xsd:element name="lon" type="xsd:string"></xsd:element>
+          	<xsd:element name="tags" type="xsd:string"></xsd:element>
+          	<xsd:element name="type" type="xsd:string"></xsd:element>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="SearchSiteResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="message" type="tns:Message" maxOccurs="unbounded" minOccurs="0"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="GetSite">
+      	<xsd:complexType>
+      		<xsd:sequence>
+
+      			<xsd:element name="site" type="xsd:string" maxOccurs="1" minOccurs="0"></xsd:element>
+      		</xsd:sequence>
+      	</xsd:complexType>
+      </xsd:element>
+      <xsd:element name="GetSiteResponse">
+      	<xsd:complexType>
+      		<xsd:sequence>
+
+      			<xsd:element name="messages" type="xsd:base64Binary" maxOccurs="1" minOccurs="1"></xsd:element>
+      		</xsd:sequence>
+      	</xsd:complexType>
+      </xsd:element>
+    
+      <xsd:complexType name="Message">
+      	<xsd:sequence>
+      		<xsd:element name="author" type="xsd:string" maxOccurs="1" minOccurs="0"></xsd:element>
+      		<xsd:element name="stime" type="xsd:dateTime" maxOccurs="1" minOccurs="0"></xsd:element>
+      		<xsd:element name="lat" type="xsd:string" maxOccurs="1" minOccurs="0"></xsd:element>
+      		<xsd:element name="lon" type="xsd:string" maxOccurs="1" minOccurs="0"></xsd:element>
+      		<xsd:element name="tags" type="xsd:string" maxOccurs="1" minOccurs="0"></xsd:element>
+      		<xsd:element name="type" type="xsd:string" maxOccurs="1" minOccurs="0"></xsd:element>
+      		<xsd:element name="ipath" type="xsd:string" maxOccurs="1" minOccurs="0"></xsd:element>
+      		<xsd:element name="result" type="xsd:string" maxOccurs="1" minOccurs="0"></xsd:element>
+      	</xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="PassInfo">
+      	<xsd:complexType>
+      		<xsd:sequence>
+
+      			<xsd:element name="message" type="tns:Message" maxOccurs="unbounded" minOccurs="0"></xsd:element>
+      			<xsd:element name="queryName" type="xsd:string" maxOccurs="1" minOccurs="1"></xsd:element>
+      			<xsd:element name="orgServer" type="xsd:string" maxOccurs="1" minOccurs="0"></xsd:element>
+      		</xsd:sequence>
+      	</xsd:complexType>
+      </xsd:element>
+      <xsd:element name="PassInfoResponse">
+      	<xsd:complexType>
+      		<xsd:sequence>
+
+      			<xsd:element name="result" type="xsd:string" maxOccurs="1" minOccurs="0"></xsd:element>
+      		</xsd:sequence>
+      	</xsd:complexType>
+      </xsd:element>
+      <xsd:element name="ParallelInfo">
+      	<xsd:complexType>
+      		<xsd:sequence>
+
+      			<xsd:element name="author" type="xsd:string" maxOccurs="1" minOccurs="0"></xsd:element>
+      			<xsd:element name="stime" type="xsd:string" maxOccurs="1" minOccurs="0"></xsd:element>
+      			<xsd:element name="lat" type="xsd:string" maxOccurs="1" minOccurs="0"></xsd:element>
+      			<xsd:element name="lon" type="xsd:string" maxOccurs="1" minOccurs="0"></xsd:element>
+      			<xsd:element name="tags" type="xsd:string" maxOccurs="1" minOccurs="0"></xsd:element>
+      			<xsd:element name="type" type="xsd:string" maxOccurs="1" minOccurs="0"></xsd:element>
+      		</xsd:sequence>
+      	</xsd:complexType>
+      </xsd:element>
+      <xsd:element name="ParallelInfoResponse">
+      	<xsd:complexType>
+      		<xsd:sequence>
+
+                        <xsd:element name="message" type="tns:Message" maxOccurs="unbounded" minOccurs="0"></xsd:element>
+                    </xsd:sequence>
+      	</xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="SearchSiteRequest">
+    <wsdl:part element="tns:SearchSite" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="SearchSiteResponse">
+    <wsdl:part element="tns:SearchSiteResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="GetSiteRequest">
+  	<wsdl:part name="parameters" element="tns:GetSite"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetSiteResponse">
+  	<wsdl:part name="parameters" element="tns:GetSiteResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="PassInfoRequest">
+  	<wsdl:part name="parameters" element="tns:PassInfo"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="PassInfoResponse">
+  	<wsdl:part name="parameters" element="tns:PassInfoResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ParallelInfoRequest">
+  	<wsdl:part name="parameters" element="tns:ParallelInfo"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ParallelInfoResponse">
+  	<wsdl:part name="parameters" element="tns:ParallelInfoResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="Site">
+    <wsdl:operation name="SearchSite">
+      <wsdl:input message="tns:SearchSiteRequest"/>
+      <wsdl:output message="tns:SearchSiteResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetSite">
+    	<wsdl:input message="tns:GetSiteRequest"></wsdl:input>
+    	<wsdl:output message="tns:GetSiteResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PassInfo">
+    	<wsdl:input message="tns:PassInfoRequest"></wsdl:input>
+    	<wsdl:output message="tns:PassInfoResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ParallelInfo">
+    	<wsdl:input message="tns:ParallelInfoRequest"></wsdl:input>
+    	<wsdl:output message="tns:ParallelInfoResponse"></wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="SiteSOAP" type="tns:Site">
+  	<soap:binding style="document"
+  		transport="http://schemas.xmlsoap.org/soap/http" />
+  	<wsdl:operation name="SearchSite">
+  		<soap:operation
+  			soapAction="http://www.example.org/Site/SearchSite" />
+  		<wsdl:input>
+  			<soap:body use="literal" />
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  	<wsdl:operation name="GetSite">
+  		<soap:operation
+  			soapAction="http://www.example.org/Site/GetSite" />
+  		<wsdl:input>
+  			<soap:body use="literal" />
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  	<wsdl:operation name="PassInfo">
+  		<soap:operation
+  			soapAction="http://www.example.org/Site/PassInfo" />
+  		<wsdl:input>
+  			<soap:body use="literal" />
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  	<wsdl:operation name="ParallelInfo">
+  		<soap:operation
+  			soapAction="http://www.example.org/Site/ParallelInfo" />
+  		<wsdl:input>
+  			<soap:body use="literal" />
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Site">
+    <wsdl:port binding="tns:SiteSOAP" name="SiteSOAP">
+      <soap:address location="http://www.example.org/"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

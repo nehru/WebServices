@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file was auto-generated from WSDL -->
+<!-- by the Apache Axis2 version: 1.5  Built on : Apr 30, 2009 (06:07:24 EDT) -->
+<serviceGroup>
+    <service name="Search">
+        <messageReceivers>
+            <messageReceiver mep="http://www.w3.org/ns/wsdl/in-out" class="ws.cmpe275.idl.SearchMessageReceiverInOut"/>
+        </messageReceivers>
+        <parameter name="ServiceClass">ws.cmpe275.idl.SearchSkeleton</parameter>
+        <parameter name="useOriginalwsdl">true</parameter>
+        <parameter name="modifyUserWSDLPortAddress">true</parameter>
+        <operation name="GetItem" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://www.example.org/Demo/">
+            <actionMapping>http://www.example.org/Demo/GetItem</actionMapping>
+            <outputActionMapping>http://www.example.org/Demo/Search/GetItemResponse</outputActionMapping>
+        </operation>
+        <operation name="ParallelInfo" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://www.example.org/Demo/">
+            <actionMapping>http://www.example.org/Demo/ParallelInfo</actionMapping>
+            <outputActionMapping>http://www.example.org/Demo/Search/ParallelInfoResponse</outputActionMapping>
+        </operation>
+        <operation name="PassInfo" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://www.example.org/Demo/">
+            <actionMapping>http://www.example.org/Demo/PassInfo</actionMapping>
+            <outputActionMapping>http://www.example.org/Demo/Search/PassInfoResponse</outputActionMapping>
+        </operation>
+        <operation name="RegisterImage" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://www.example.org/Demo/">
+            <actionMapping>http://www.example.org/Demo/RegisterImage</actionMapping>
+            <outputActionMapping>http://www.example.org/Demo/Search/RegisterImageResponse</outputActionMapping>
+        </operation>
+        <operation name="Search" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://www.example.org/Demo/">
+            <actionMapping>http://www.example.org/Demo/Search</actionMapping>
+            <outputActionMapping>http://www.example.org/Demo/Search/SearchResponse</outputActionMapping>
+        </operation>
+    </service>
+</serviceGroup>

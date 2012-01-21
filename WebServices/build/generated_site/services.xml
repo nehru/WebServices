@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file was auto-generated from WSDL -->
+<!-- by the Apache Axis2 version: 1.5  Built on : Apr 30, 2009 (06:07:24 EDT) -->
+<serviceGroup>
+    <service name="Site">
+        <messageReceivers>
+            <messageReceiver mep="http://www.w3.org/ns/wsdl/in-out" class="ws.cmpe275.site.SiteMessageReceiverInOut"/>
+        </messageReceivers>
+        <parameter name="ServiceClass">ws.cmpe275.site.SiteSkeleton</parameter>
+        <parameter name="useOriginalwsdl">true</parameter>
+        <parameter name="modifyUserWSDLPortAddress">true</parameter>
+        <operation name="PassInfo" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://www.example.org/Site/">
+            <actionMapping>http://www.example.org/Site/PassInfo</actionMapping>
+            <outputActionMapping>http://www.example.org/Site/Site/PassInfoResponse</outputActionMapping>
+        </operation>
+        <operation name="SearchSite" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://www.example.org/Site/">
+            <actionMapping>http://www.example.org/Site/SearchSite</actionMapping>
+            <outputActionMapping>http://www.example.org/Site/Site/SearchSiteResponse</outputActionMapping>
+        </operation>
+        <operation name="GetSite" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://www.example.org/Site/">
+            <actionMapping>http://www.example.org/Site/GetSite</actionMapping>
+            <outputActionMapping>http://www.example.org/Site/Site/GetSiteResponse</outputActionMapping>
+        </operation>
+        <operation name="ParallelInfo" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://www.example.org/Site/">
+            <actionMapping>http://www.example.org/Site/ParallelInfo</actionMapping>
+            <outputActionMapping>http://www.example.org/Site/Site/ParallelInfoResponse</outputActionMapping>
+        </operation>
+    </service>
+</serviceGroup>

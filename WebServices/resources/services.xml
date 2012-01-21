@@ -1,0 +1,16 @@
+<service>
+	<description>
+		This is my first service, which says hello
+	</description>
+	<parameter name="ServiceClass">
+		helloworld.HelloWorldServiceImplementation
+	</parameter>
+	<operation name="HelloCall_Echo">
+		<messageReceiver
+			class="org.apache.axis2.rpc.receivers.RPCMessageReceiver" />
+	</operation>
+	<operation name="HelloCall_Add">
+		<messageReceiver
+			class="org.apache.axis2.rpc.receivers.RPCMessageReceiver" />
+	</operation>
+</service>
